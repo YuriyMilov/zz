@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 )
 public class HelloAppEngine extends HttpServlet {
 	
-//----------------
+//------ test ----------
 	
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
