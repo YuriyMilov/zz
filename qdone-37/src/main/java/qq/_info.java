@@ -33,6 +33,19 @@ import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader; 
 
 public class _info extends Thread {
+	
+	
+	public static void main(String[] args) throws Exception {
+		
+		String s = get_last_rss();
+		s= get_rss(s);
+		System.out.println(s);
+		
+		
+	}
+	
+	
+	
 	public _info() {
 		this.start();  
 	}
