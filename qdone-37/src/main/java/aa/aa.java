@@ -40,7 +40,7 @@ public class aa extends HttpServlet {
 	if (s==null)
 		s=kust.s_get("qq");
 	else
-		kust.s_put("qq", s);
+		kust.s_put("qq", s+"----ZZZZZZZZZZZZZZZZZZZZ");
 	
    	kust.m2a("aa", s);
    	

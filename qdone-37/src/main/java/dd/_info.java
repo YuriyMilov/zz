@@ -280,12 +280,12 @@ public class _info {
 		String s_dofm = String.valueOf(cc.get(Calendar.DAY_OF_MONTH));
 		String s_dow = String.valueOf(cc.get(Calendar.DAY_OF_WEEK)).replace("1", "воскресенье")
 				.replace("2", "понедельник").replace("3", "вторник").replace("4", "среда").replace("5", "четверг")
-				.replace("6", "пятница").replace("7", "суббота");
+				.replace("6", "пчтница").replace("7", "суббота");
 
 		String s = String.valueOf(cc.get(Calendar.MONTH));
-		s = s.replace("10", " ноября ").replace("11", " декабря ").replace("0", " января ").replace("1", " февраля ")
-				.replace("2", " марта ").replace("3", " апреля ").replace("4", " мая ").replace("5", " июня ")
-				.replace("6", " июля ").replace("7", " августа ").replace("8", " сентября ").replace("9", " октября ");
+		s = s.replace("10", " ноябрь ").replace("11", " декабрь ").replace("0", " январь ").replace("1", " февраль ")
+				.replace("2", " март ").replace("3", " апрель ").replace("4", " май ").replace("5", " июнь ")
+				.replace("6", " июль ").replace("7", " авуст ").replace("8", " сентябрь ").replace("9", " октябрь ");
 
 		s = s_hh + ":" + s_mm + " " + s_dow + " " + s_dofm + s;
 
