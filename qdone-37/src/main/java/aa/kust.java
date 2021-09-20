@@ -16,10 +16,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -29,25 +31,30 @@ import com.rometools.rome.io.XmlReader;
 public class kust {
  
 	public static void main(String[] args) throws Exception{
-		String s = "https://www.realwire.com/rss/?id=184&row=&view=Synopsis";
-		s="http://gamesnews.quicklydone.com/p/rss.html";
 		
-		s=qq._info.get_last_rss();
-		s=qq._info.get_next_rss(s);
+		
+		//String s = "https://www.realwire.com/rss/?id=184&row=&view=Synopsis";
+		String s="http://gamesnews.quicklydone.com/p/rss.html";
+		
+		//s=qq._info.get_last_rss();
+		//s=qq._info.get_next_rss(s);
+		s=qq._info.get_rss(s);
 		
 		//String out = new Scanner(new URL(s).openStream(), "UTF-8").useDelimiter("\\A").next();
 		//s=out;
 		//s= rfu_utf(s);
 		
-		s=qq._info.get_rss(s);
+		//s=qq._info.get_rss(s);
 		
 		
 				
 		  FileWriter myWriter = new FileWriter("C:\\Users\\ym\\Desktop\\7777777777.html");
-	      myWriter.write(s);
+	     myWriter.write(s);
 	      myWriter.close();
 		
+
 		System.out.println(s);
+		
 		
 	}
 	public static String rfu_utf(String s) {
@@ -70,29 +77,25 @@ public class kust {
 			return e.toString();
 		}
 	}
-	public static String s_put(String name, String s) {
-			  try {
+	public static void s_put(String name, String s) {
+	
 			 	  Entity zzz = new Entity("aa","bb");
 			 	  zzz.setProperty(name, s);     	   
 		          DatastoreServiceFactory.getDatastoreService().put(zzz);
-		    } catch (Exception e) {
-				return e.toString();
-			}
-				return "ok";
 	}	
 	
 
 	public static String s_get(String name) {
 		
 			  String s="";
-			    try {
 			    	Key kk = KeyFactory.createKey("aa", "bb");    	
 			    	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-			    	s=  datastore.get(kk).getProperties().get(name).toString();
-			    } catch (Exception e) {
-					s= e.toString();
-				}
-			  
+			    	try {
+						s=  datastore.get(kk).getProperties().get(name).toString();
+					} catch (EntityNotFoundException e) {
+						s=e.toString();
+						m2a("error","s_get('...') "+s);
+					}
 		  return s;
 	}
 	
@@ -120,6 +123,35 @@ public class kust {
 		}
 	
 		return "email sent";
+	}
+	
+	static public final String get_last_rss_ds() throws Exception {
+		
+		String s = s_get("last_rss");
+		
+		 
+		 return s;
+	}
+	public static String send_mail(String from_name, String from_address, String to_name, String to_address,
+			String subj, String body) throws Exception {
+		String s = "emailing started," + to_address;
+		Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress(from_address, MimeUtility.encodeText(from_name, "utf-8", "B")));
+		msg.addRecipient(Message.RecipientType.TO,
+				new InternetAddress(to_address, MimeUtility.encodeText(to_name, "utf-8", "B")));
+		msg.setSubject(MimeUtility.encodeText(MimeUtility.encodeText(subj, "utf-8", "B"), "utf-8", "B"));
+	
+		MimeBodyPart textPart = new MimeBodyPart();
+		textPart.setContent(body, "text/html;charset=utf-8");
+		Multipart mp = new MimeMultipart();
+		mp.addBodyPart(textPart);
+		msg.setContent(mp);
+		Transport.send(msg);
+		s=s+" "+"... finished and sent";
+		return s;
+	
 	}
 
 }

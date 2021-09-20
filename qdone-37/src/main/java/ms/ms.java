@@ -1,4 +1,4 @@
-package aa;
+package ms;
 import java.io.IOException;
 import java.util.Date;
 
@@ -16,7 +16,7 @@ import com.google.appengine.api.datastore.Key;
     name = "aa.aa",
     urlPatterns = {"/aa"}
 )
-public class aa extends HttpServlet {
+public class ms extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -24,21 +24,10 @@ public class aa extends HttpServlet {
 
     response.setContentType("text/plain");
     response.setCharacterEncoding("UTF-8");
-    String s="", n="";
-    try {
-    	n=request.getParameter("n");
-    	s=request.getParameter("s");
-	if (s==null)
-		s=kust.s_get(n);
-	else
-		kust.s_put(n, s);
-	
-   	//m2a("aa", s);
-   	
-	} catch (Exception e) {
-		s= e.toString();
-	}
     
+	String s = "", url = "";
+
+	
     response.getWriter().print(s);
   }
 	

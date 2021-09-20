@@ -33,15 +33,18 @@ public class _info {
 
 
 	public static void main(String[] args) throws Exception {
+		
 		//String s = get_new_rss("http://novorossia-novosti.com/feed/");
-		 String s=""; 
-		 s = get_all_new_rss();
+	//	String s = get_new_rss("https://www.mississauga.com/rss/article?category=news");
+		
+		// String s=""; 
+		// s = get_all_new_rss();
 		 
 		 FileWriter myWriter = new FileWriter("C:\\Users\\ym\\Desktop\\7777777777.html");
-	      myWriter.write(s);
+	      myWriter.write("s");
 	      myWriter.close();
 	      
-		 System.out.println(s);
+		 System.out.println(1111);
 	}
 	
 

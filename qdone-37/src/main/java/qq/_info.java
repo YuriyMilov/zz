@@ -1,6 +1,7 @@
 package qq;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -37,10 +38,17 @@ public class _info extends Thread {
 	
 	public static void main(String[] args) throws Exception {
 		
-		String s = get_last_rss();
-		s= get_rss(s);
-		System.out.println(s);
+		//String s = get_last_rss();
+		//s= get_rss(s);
+		//System.out.println(s);
 		
+		 String s = get_rss("https://www.mississauga.com/rss/article?category=news");
+		 //;
+		 
+		 FileWriter myWriter = new FileWriter("C:\\Users\\ym\\Desktop\\7777777777.html");
+	      myWriter.write(s);
+	      myWriter.close();
+	      System.out.println(s);
 		
 	}
 	
@@ -156,12 +164,14 @@ public class _info extends Thread {
 	}
 
 	static public final String get_last_rss() throws Exception {
+		
 		 String s= rfu_utf("http://gamesnews.quicklydone.com/");
 			
 		 int i=s.indexOf("<!--qqq-");
 		 s=s.substring(i);
 		 i= s.indexOf("-qqq-->");
 		 s=s.substring(8,i);
+		 
 		 return s;
 	}
 
