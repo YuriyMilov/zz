@@ -22,24 +22,30 @@ public class aa extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException { 
 
+	 	  
     response.setContentType("text/plain");
     response.setCharacterEncoding("UTF-8");
-    String s="", n="";
+    String table="", id="", field="",value="";
     try {
-    	n=request.getParameter("n");
-    	s=request.getParameter("s");
-	if (s==null)
-		s=kust.s_get(n);
+    	table=request.getParameter("table");
+    	id=request.getParameter("id");
+    	field=request.getParameter("field");
+    	value=request.getParameter("value");
+	if (value==null)		
+		{value=kust.s_get(table,id,field);
+		response.getWriter().print("get value OK: " + value);}
 	else
-		kust.s_put(n, s);
+		{kust.s_put(table,id,field,value);
+		response.getWriter().print("put value OK: "+value);}
 	
-   	//m2a("aa", s);
+	
    	
 	} catch (Exception e) {
-		s= e.toString();
+		
+	response.getWriter().print("Error "+ e.toString() + "  \r\n\r\n" + kust.m2a("error", e.toString()));
 	}
     
-    response.getWriter().print(s);
+    
   }
 	
 }

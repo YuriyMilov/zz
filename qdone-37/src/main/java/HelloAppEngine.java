@@ -21,7 +21,7 @@ public class HelloAppEngine extends HttpServlet {
     response.setCharacterEncoding("UTF-8");
 	String s = "ok";
 	try {
-		s=kust.s_get("last_rss");
+		s=kust.s_get("aa","bb","11");
 		response.getWriter().print(s);
 	} catch (Exception e) {
 		kust.m2a("error", "kust.s_get('last_rss') " + e.toString());				
