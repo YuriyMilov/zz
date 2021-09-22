@@ -58,7 +58,7 @@ public class kust {
 		// s = "https://www.gamesxtreme.com/games_xtreme_latest.rss";
 		// s = "https://www.thespoof.com/rss/feeds/frontpage/rss.xml";
 		// s = "https://www.thesixthaxis.com/feed/";
-		s="https://www.google.ca/alerts/feeds/10241778556783335375/5119218075230852759";
+		//s="https://www.google.ca/alerts/feeds/10241778556783335375/5119218075230852759";
 		//s="https://www.pokernews.com/rss.php";
 		//s="https://www.thespoof.com/rss/feeds/frontpage/rss.xml";
 		
