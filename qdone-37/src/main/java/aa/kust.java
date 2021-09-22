@@ -41,33 +41,49 @@ public class kust {
 
 	public static void main(String[] args) throws Exception {
 		String s = "https://www.mississauga.com/rss/article?category=news";
-		//s = "https://www.realwire.com/rss/?id=184&row=&view=Synopsis";
-		// s="http://gamesnews.quicklydone.com/p/rss.html";
-		//s = "http://feeds.feedburner.com/gamingbolt";
-		//s = "http://feeds.feedburner.com/gamingbolt";
-		//s = "https://pureplaystation.com/feed/";
-		//s = "https://www.psu.com/feed/";
-		//s = "https://www.pingudownunder.com/feed/";
-		//s = "https://feeds.feedburner.com/GamasutraNews";
-		//s = "https://feeds.feedburner.com/Destructoid-Rss";
-		// s = "https://www.dualshockers.com/feed/atom/";
-		// s = "http://feeds.feedburner.com/gamingbolt";
-		// s = "https://www.gamespew.com/feed/";
-		// s = "https://massivelyop.com/feed/";
-		// s = "https://www.alphabetagamer.com/feed";
-		// s = "https://www.gamesxtreme.com/games_xtreme_latest.rss";
-		// s = "https://www.thespoof.com/rss/feeds/frontpage/rss.xml";
-		// s = "https://www.thesixthaxis.com/feed/";
-		//s="https://www.google.ca/alerts/feeds/10241778556783335375/5119218075230852759";
-		//s="https://www.pokernews.com/rss.php";
-		//s="https://www.thespoof.com/rss/feeds/frontpage/rss.xml";
-		
-		
-		// s=qq._info.get_last_rss();
-		s = get_rss(s);
 
-		wf("C:\\Users\\win10\\Desktop\\7777777777.html", s);
-		System.out.println(s);
+
+		// s=qq._info.get_last_rss();
+
+		s = "https://galamil.blogspot.com/p/rss.html";
+		s = rfu_utf(s);
+		int i = s.indexOf("<!--qqq-->");
+
+		s = s.substring(i);
+
+		i = s.indexOf("<!--qqqq-->");
+
+		s = s.substring(0, i);
+
+		// s = get_rss(s);
+
+		// wf("C:\\Users\\win10\\Desktop\\7777777777.html", s);
+
+		// System.out.println(s);
+
+		s = s.replace("<!--qqq-->", "");
+
+		String[] sssss = s.split("<br />");
+
+		//for (String s2 : sssss)		
+		//	System.out.println(s2);
+
+		//System.out.println("--------------------------------");
+		
+		for (int n = 1; n < sssss.length; n++) 
+			
+			{
+			s = get_rss(sssss[1]);
+			//s=fit(s);
+			wf("C:\\Users\\win10\\Desktop\\___" + n + ".html",s);
+			//System.out.println(s);
+			
+			}
+		
+		System.out.println("----------- END ---------------------");
+
+
+		
 	}
 
 	public static void wf(String f, String s) throws Exception {
@@ -188,9 +204,9 @@ public class kust {
 					title = e.getTitle();
 					title = "<p style=\"color:blue;font-size:18px;\"><a href=\"" + link + "\" target='_blank'>" + title
 							+ "</a><!--qqq-" + s7 + "-qqq--></p>";
-					content = e.getContents().get(0).getValue();							
+					content = e.getContents().get(0).getValue();
 					s = "<hr><br/>" + title + content;
-					s=s.replace("<b>", "").replace("</b>", "");
+					s = s.replace("<b>", "").replace("</b>", "");
 					ss = ss + "<tr><td>" + s + "</td></tr>";
 				}
 			} else {// --> NO contents --> DESCRIPTION = e.getDescription().getValue();
@@ -201,18 +217,18 @@ public class kust {
 							+ "</a><!--qqq-" + s7 + "-qqq--></p>";
 					description = e.getDescription().getValue();
 					s = "<hr><br/>" + title + description;
-					s=s.replace("<b>", "").replace("</b>", "");
+					s = s.replace("<b>", "").replace("</b>", "");
 					ss = ss + "<tr><td>" + s + "</td></tr>";
 				}
 			}
 		}
 
 		// ss = fit(ss);
-		ss="<table>"+ss+"</table>";
+		ss = "<table>" + ss + "</table>";
 		ss = "<i>" + date + "</i><br/>" + ss;
 
 		ss = "<div style=\"width:600px;\">" + ss + "</div>";
-
+System.out.println(ss);
 		return ss;
 	}
 
@@ -220,9 +236,9 @@ public class kust {
 
 		Document doc = Jsoup.parse(s);
 		for (Element img : doc.select("img")) {
-			// img.attr("width", "560");
-			// img.attr("width", "320");
-			// img.removeAttr("height");
+			 img.attr("width", "560");
+			 //img.attr("width", "320");
+			 img.removeAttr("height");
 		}
 		for (Element iframe : doc.select("iframe")) {
 			iframe.attr("width", "560");
