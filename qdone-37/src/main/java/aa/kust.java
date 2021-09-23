@@ -6,6 +6,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -33,57 +39,112 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndEntryImpl;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
 public class kust {
 
+	static public final String qqqq(String s) throws Exception {
+
+		String ss = "", dd = "", date = "", link = "", title = "", content = "";
+		try {
+			SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
+			List<SyndEntry> synd_entry = feed.getEntries();
+			dd = feed.getDescription();
+			for (Object o : synd_entry) {
+
+				Date d = ((SyndEntryImpl) o).getPublishedDate();
+				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(1)));
+
+				System.out.println("-- DATE -->" + d + " " + bb);
+				if (bb) {
+					link = ((SyndEntryImpl) o).getLink();
+					title = ((SyndEntryImpl) o).getTitle();
+
+					SyndContent synd_content = ((SyndEntryImpl) o).getDescription();
+					if (synd_content != null)
+						content = ((SyndEntryImpl) o).getDescription().getValue();
+					else
+						content = "";
+
+					System.out.println("- TITLE -> " + title);
+					// System.out.println("- Content -> " + content);
+
+					// s = "<b>" + title + "</b><br />-----------------<br />" + content;
+
+					ss = ss + "<div><table><tr><td valign='top'>"
+
+							+ "<br/><a href='" + link
+							+ "' target='_blank'><img src='http://3.bp.blogspot.com/-UEeXrZLtJCM/Xe5qS93LHBI/AAAAAAABSr4/ei1k8POBBBom8OIZmbbTRLQZVZEUKEviACK4BGAYYCw/s770/rss2.png' /></a>"
+							+ "</td>"
+
+							+ "<td>&nbsp;</td>" + "<td valign='top'>"
+
+							+ "<div style=\"color:#aaaaaa;font-family: Arial;font-size:13px;text-decoration:none;\">"
+							+ "<i>" + dd + "</i>"
+
+							+ "<br/>"
+
+							+ "<a href='" + link
+							+ "' style=\"color:#0044bb;font-family: Arial;font-size:14px;text-decoration:none;\" target=\"_blank\"><b>"
+							+ title + "</b></a>"
+
+							+ "</div>"
+
+							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ content + "</div>"
+
+							+ "</td></tr></table></div><hr/>";
+
+				}
+			}
+
+		} catch (Exception e) {
+			m2a("RSS error", s + " " + e.toString());
+		}
+
+		return ss;
+	}
+
 	public static void main(String[] args) throws Exception {
+
+		String ss = "";
 		String s = "https://www.mississauga.com/rss/article?category=news";
-
-
-		// s=qq._info.get_last_rss();
-
 		s = "https://galamil.blogspot.com/p/rss.html";
+		s = "https://polit.ddtor.com/p/blog-page_21.html";
 		s = rfu_utf(s);
-		int i = s.indexOf("<!--qqq-->");
+		// <!--qqq-->"
+		// <!--qqqq-->
+		// <!--qqq_rss1_qqq-->
+		// <!--qqq_rss2_qqq-->
 
+		int i = s.indexOf("<!--qqq_rss1_qqq-->");
 		s = s.substring(i);
-
-		i = s.indexOf("<!--qqqq-->");
-
+		i = s.indexOf("<!--qqq_rss2_qqq-->");
 		s = s.substring(0, i);
-
-		// s = get_rss(s);
-
-		// wf("C:\\Users\\win10\\Desktop\\7777777777.html", s);
-
-		// System.out.println(s);
-
-		s = s.replace("<!--qqq-->", "");
+		s = s.replace("<!--qqq_rss1_qqq-->", "").replace("<!--qqq_rss2_qqq-->", "").trim();
 
 		String[] sssss = s.split("<br />");
 
-		//for (String s2 : sssss)		
-		//	System.out.println(s2);
+		// for (String s2 : sssss)
+		// System.out.println(s2);
 
-		//System.out.println("--------------------------------");
-		
-		for (int n = 1; n < sssss.length; n++) 
-			
-			{
-			s = get_rss(sssss[1]);
-			//s=fit(s);
-			wf("C:\\Users\\win10\\Desktop\\___" + n + ".html",s);
-			//System.out.println(s);
-			
-			}
-		
+		// System.out.println("--------------------------------");
+
+		for (int n = 0; n < sssss.length; n++) {
+			s = sssss[n];
+			System.out.println(s);
+			s = qqqq(s);
+			// s=fit(s);
+			ss = ss + s;
+		}
+
+		wf("C:\\Users\\win10\\Desktop\\___qqqqqqqqq___.html", ss);
 		System.out.println("----------- END ---------------------");
 
-
-		
 	}
 
 	public static void wf(String f, String s) throws Exception {
@@ -192,12 +253,18 @@ public class kust {
 		if (i >= 0) { // --- Entries > 0
 
 			List<SyndContent> ee = eee.get(0).getContents();
+
 			Date dd = eee.get(0).getPublishedDate();
 			if (dd != null)
 				date = eee.get(0).getPublishedDate().toString();
 			else
 				date = "no published date";
 			i = ee.size();
+
+			for (Object o : ee) {
+				System.out.println(((SyndEntryImpl) o).getDescription().getValue());
+			}
+
 			if (i > 0) { // ---> YES content = getContents().get(0).getValue();
 				for (SyndEntry e : eee) {
 					link = e.getLink();
@@ -228,7 +295,7 @@ public class kust {
 		ss = "<i>" + date + "</i><br/>" + ss;
 
 		ss = "<div style=\"width:600px;\">" + ss + "</div>";
-System.out.println(ss);
+		System.out.println(ss);
 		return ss;
 	}
 
@@ -236,9 +303,9 @@ System.out.println(ss);
 
 		Document doc = Jsoup.parse(s);
 		for (Element img : doc.select("img")) {
-			 img.attr("width", "560");
-			 //img.attr("width", "320");
-			 img.removeAttr("height");
+			img.attr("width", "560");
+			// img.attr("width", "320");
+			img.removeAttr("height");
 		}
 		for (Element iframe : doc.select("iframe")) {
 			iframe.attr("width", "560");
