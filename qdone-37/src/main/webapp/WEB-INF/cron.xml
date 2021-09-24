@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <cronentries>
 
-<!--
+
 	<cron>
 		<url>/qq3</url>
 		<description>  games-news  update </description>
-		<schedule>every 120 minutes</schedule>
+		<schedule>every 240 minutes</schedule>
 		<timezone>America/New_York</timezone>
 	</cron>
 
- 
+<!-- 
 	<cron>
 		<url>/rss</url>
 		<description>  news update</description>

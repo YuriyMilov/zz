@@ -1,68 +1,56 @@
 package rss;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import com.rometools.rome.feed.synd.SyndContent;
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.io.SyndFeedInput;
-import com.rometools.rome.io.XmlReader;
-
-
+import dd._info;
 
 @WebServlet(name = "rss.qq3", urlPatterns = { "/qq3" })
 public class qq3 extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-	
-		String shttp = request.getScheme() + "://" + request.getServerName() + ":"
-				+ request.getServerPort() + request.getContextPath();
-		
-		String s="";
+		//response.setContentType("text/html");
+		//response.setCharacterEncoding("UTF-8");
+		String shttp = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+				+ request.getContextPath();
+		String s = "";
 		
 		try {
-		s=qq._info.get_last_rss();
-		s=qq._info.get_next_rss(s);
-		
-				s=qq._info.rfu_utf(shttp+"/qq2?"+s);
-
+			s = "https://polit.ddtor.com/p/blog-page_21.html";
+			s = kust.rfu_utf(shttp + "/qq2?" + s);
+			kust.send_mail("", "ymilov@gmail.com", "", "ymilov.k9992.tverskoy@blogger.com", kust.get_date_rus3(), s);
+					
 		} catch (Exception e) {
 			s = e.toString();
+			kust.m2a("Error qq3", s);
+		}
+
+		try {
+			s = "https://gamesnews.quicklydone.com/p/rss.html";
+			s = kust.rfu_utf(shttp + "/qq2?" + s);
+			kust.send_mail("Ymilog", "ymilov@gmail.com", "", "ymilov.gmsn123@blogger.com", kust.get_date_eng(), s);
+		} catch (Exception e) {
+			s = e.toString();
+			kust.m2a("Error qq3", s);
 		}
 		
-		PrintWriter wr = response.getWriter();
-		
-		wr.print(s);
-		wr.close();
-		
+		try {
+			s = "https://galamil.blogspot.com/p/rss.html";
+			s = kust.rfu_utf(shttp + "/qq2?" + s);
+			kust.send_mail("Ymilog", "ymilov@gmail.com", "", "ymilov.qdone@blogger.com", kust.get_date_eng(), s);
+		} catch (Exception e) {
+			s = e.toString();
+			kust.m2a("Error qq3", s);
+	}
+
+		//PrintWriter wr = response.getWriter();
+		//wr.print(s);
+		//wr.close();
+
 	}
 
 }

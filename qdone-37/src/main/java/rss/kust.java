@@ -1,4 +1,4 @@
-package aa;
+package rss;
 
 import java.io.BufferedReader;
 import java.io.FileWriter;
@@ -12,10 +12,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.chrono.ChronoLocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.TimeZone;
 
 import javax.mail.Message;
 import javax.mail.Multipart;
@@ -46,20 +48,21 @@ import com.rometools.rome.io.XmlReader;
 
 public class kust {
 
-	static public final String qqqq(String s) throws Exception {
+	static public final String get_h_rss(String s, int i) throws Exception {
 
-		String ss = "", dd = "", date = "", link = "", title = "", content = "";
+		String ss = "", rss_descr = "", link = "", title = "", content = "";
 		try {
 			SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
 			List<SyndEntry> synd_entry = feed.getEntries();
-			dd = feed.getDescription();
+			rss_descr = feed.getDescription();
 			for (Object o : synd_entry) {
 
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
 				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(1)));
+				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
 
 				System.out.println("-- DATE -->" + d + " " + bb);
+
 				if (bb) {
 					link = ((SyndEntryImpl) o).getLink();
 					title = ((SyndEntryImpl) o).getTitle();
@@ -70,10 +73,7 @@ public class kust {
 					else
 						content = "";
 
-					System.out.println("- TITLE -> " + title);
-					// System.out.println("- Content -> " + content);
-
-					// s = "<b>" + title + "</b><br />-----------------<br />" + content;
+					// System.out.println("- TITLE -> " + title);
 
 					ss = ss + "<div><table><tr><td valign='top'>"
 
@@ -84,7 +84,7 @@ public class kust {
 							+ "<td>&nbsp;</td>" + "<td valign='top'>"
 
 							+ "<div style=\"color:#aaaaaa;font-family: Arial;font-size:13px;text-decoration:none;\">"
-							+ "<i>" + dd + "</i>"
+							+ "<i>" + rss_descr + "</i>"
 
 							+ "<br/>"
 
@@ -103,46 +103,20 @@ public class kust {
 			}
 
 		} catch (Exception e) {
-			m2a("RSS error", s + " " + e.toString());
+			m2a("RSS error", s + " \r\n\r\n" + e.toString());
 		}
 
 		return ss;
 	}
 
 	public static void main(String[] args) throws Exception {
+		String s = "";
+		 s = "https://polit.ddtor.com/p/blog-page_21.html";
+		// s = "https://galamil.blogspot.com/p/rss.html";
+		//s = "https://gamesnews.quicklydone.com/p/rss.html";
 
-		String ss = "";
-		String s = "https://www.mississauga.com/rss/article?category=news";
-		s = "https://galamil.blogspot.com/p/rss.html";
-		s = "https://polit.ddtor.com/p/blog-page_21.html";
-		s = rfu_utf(s);
-		// <!--qqq-->"
-		// <!--qqqq-->
-		// <!--qqq_rss1_qqq-->
-		// <!--qqq_rss2_qqq-->
-
-		int i = s.indexOf("<!--qqq_rss1_qqq-->");
-		s = s.substring(i);
-		i = s.indexOf("<!--qqq_rss2_qqq-->");
-		s = s.substring(0, i);
-		s = s.replace("<!--qqq_rss1_qqq-->", "").replace("<!--qqq_rss2_qqq-->", "").trim();
-
-		String[] sssss = s.split("<br />");
-
-		// for (String s2 : sssss)
-		// System.out.println(s2);
-
-		// System.out.println("--------------------------------");
-
-		for (int n = 0; n < sssss.length; n++) {
-			s = sssss[n];
-			System.out.println(s);
-			s = qqqq(s);
-			// s=fit(s);
-			ss = ss + s;
-		}
-
-		wf("C:\\Users\\win10\\Desktop\\___qqqqqqqqq___.html", ss);
+		s = get_all_new_rss(s);
+		wf("C:\\Users\\win10\\Desktop\\___qqqqqqqqq___.html", s);
 		System.out.println("----------- END ---------------------");
 
 	}
@@ -177,6 +151,13 @@ public class kust {
 
 		Entity zzz = new Entity(table, id);
 		zzz.setProperty(field, value);
+		DatastoreServiceFactory.getDatastoreService().put(zzz);
+	}
+	public static void s_put2(String table, String id, String field1, String value1, String field2, String value2) {
+
+		Entity zzz = new Entity(table, id);
+		zzz.setProperty(field1, value1);
+		zzz.setProperty(field2, value2);
 		DatastoreServiceFactory.getDatastoreService().put(zzz);
 	}
 
@@ -240,7 +221,7 @@ public class kust {
 
 	}
 
-	static public final String get_rss(String s) throws Exception {
+	static public final String get_rss_old(String s) throws Exception {
 		String s7 = s;
 		URL feedSource = new URL(s);
 		SyndFeedInput input = new SyndFeedInput();
@@ -318,6 +299,83 @@ public class kust {
 
 		s = doc.toString();
 
+		return s;
+	}
+
+	public static String get_all_new_rss(String s) throws Exception {
+
+		String ss = "";
+		s = rfu_utf(s);
+
+		int i = s.indexOf("<!--qqq_rss1_qqq-->");
+		if (i > -1) {
+			s = s.substring(i);
+			i = s.indexOf("<!--qqq_rss2_qqq-->");
+			s = s.substring(0, i);
+			s = s.replace("<!--qqq_rss1_qqq-->", "").replace("<!--qqq_rss2_qqq-->", "").trim();
+		} else {
+			i = s.indexOf("<!--qqq-rss-begin-qqq-->");
+			s = s.substring(i);
+			i = s.indexOf("<!--qqq-rss-end-qqq-->");
+			s = s.substring(0, i);
+			s = s.replace("<!--qqq-rss-begin-qqq-->", "").replace("<!--qqq-rss-end-qqq-->", "").trim();
+		}
+
+		for (String s2 : s.split("<br />"))
+			ss = ss + get_h_rss(s2, 4);
+
+		return ss;
+	}
+
+	public static String get_date_eng() {
+	
+		Date dd = new Date();
+	
+		TimeZone tz = TimeZone.getTimeZone("est");
+		Calendar cc = Calendar.getInstance(tz);
+		cc.setTime(dd);
+		cc.add(Calendar.HOUR, -1);
+	
+		String s_hh = String.valueOf(cc.get(Calendar.HOUR_OF_DAY));
+		String s_mm = String.valueOf(String.format("%02d", cc.get(Calendar.MINUTE)));
+		String s_dofm = String.valueOf(cc.get(Calendar.DAY_OF_MONTH));
+		String s_dow = String.valueOf(cc.get(Calendar.DAY_OF_WEEK)).replace("1", "Suday")
+				.replace("2", "Monday").replace("3", "Tuesday").replace("4", "Wednesday").replace("5", "Thursday")
+				.replace("6", "Friday").replace("7", "Saturday");
+	
+		String s = String.valueOf(cc.get(Calendar.MONTH));
+		s = s.replace("10", " November ").replace("11", " December ").replace("0", " January ").replace("1", " February ")
+				.replace("2", " March ").replace("3", " April ").replace("4", " May ").replace("5", " June ")
+				.replace("6", " July ").replace("7", " August ").replace("8", " September ").replace("9", " October ");
+	
+		s = s_hh + ":" + s_mm + " " + s_dow + ", "  + s + s_dofm;
+	
+		return s;
+	}
+
+	public static String get_date_rus3() {
+	
+		Date dd = new Date();
+	
+		TimeZone tz = TimeZone.getTimeZone("Europe/Moscow");
+		Calendar cc = Calendar.getInstance(tz);
+		cc.setTime(dd);
+		cc.add(Calendar.HOUR, -1);
+	
+		String s_hh = String.valueOf(cc.get(Calendar.HOUR_OF_DAY));
+		String s_mm = String.valueOf(String.format("%02d", cc.get(Calendar.MINUTE)));
+		String s_dofm = String.valueOf(cc.get(Calendar.DAY_OF_MONTH));
+		String s_dow = String.valueOf(cc.get(Calendar.DAY_OF_WEEK)).replace("1", "воскресенье")
+				.replace("2", "понедельник").replace("3", "вторник").replace("4", "среда").replace("5", "четверг")
+				.replace("6", "пятница").replace("7", "суббота");
+	
+		String s = String.valueOf(cc.get(Calendar.MONTH));
+		s = s.replace("10", " ноябрь ").replace("11", " декабрь ").replace("0", " январь ").replace("1", " февраль ")
+				.replace("2", " март ").replace("3", " апрель ").replace("4", " май ").replace("5", " июнь ")
+				.replace("6", " июль ").replace("7", " август ").replace("8", " сентябрь ").replace("9", " октябрь ");
+	
+		s = s_hh + ":" + s_mm + " " + s_dow + " " + s_dofm + s;
+	
 		return s;
 	}
 

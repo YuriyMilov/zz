@@ -26,22 +26,18 @@ public class qq2 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		String s = "", url = "";
+		String s = "", url="";
 		try {
 			url = request.getQueryString().trim();
-			s = qq._info.get_rss(url);
-			//qq._info.send_mail("George M.", "4guest@gmail.com", "", "4guest.gmsn123@blogger.com", "", s);
-			qq._info.send_mail("Ymilog", "ymilov@gmail.com", "", "ymilov.gmsn123@blogger.com", "", s);
+			s = kust.get_all_new_rss(url);
 		} catch (Exception e) {
 			s = e.toString();
 			try {
-				qq._info.send_mail("Ymilog", "ymilov@gmail.com", "", "ymilov@gmail.com", "", s);
+				kust.m2a("Error qq2 ", url + "  \r\n\r\n" + s);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
-		qq._info.last_page=s;
 		PrintWriter wr = response.getWriter();
 		wr.print(s);
 		wr.close();
