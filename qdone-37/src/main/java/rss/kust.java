@@ -55,68 +55,56 @@ public class kust {
 			SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
 			List<SyndEntry> synd_entry = feed.getEntries();
 			rss_descr = feed.getDescription();
+			
+			if(rss_descr==null)
+				rss_descr=s;
+			else
+				if(rss_descr.length()<3)
+					rss_descr=s;				
+			
 			for (Object o : synd_entry) {
-
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
 				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
-
-				System.out.println("-- DATE -->" + d + " " + bb);
-
+				//System.out.println("-- DATE -->" + d + " " + bb);
 				if (bb) {
 					link = ((SyndEntryImpl) o).getLink();
 					title = ((SyndEntryImpl) o).getTitle();
-
 					SyndContent synd_content = ((SyndEntryImpl) o).getDescription();
 					if (synd_content != null)
 						content = ((SyndEntryImpl) o).getDescription().getValue();
 					else
 						content = "";
+					content = fit(content);
 
-					// System.out.println("- TITLE -> " + title);
-
-					ss = ss + "<div><table><tr><td valign='top'>"
-
-							+ "<br/><a href='" + link
+					ss = ss + "<table><tr><td valign='top'><br /><a href='" + link
 							+ "' target='_blank'><img src='http://3.bp.blogspot.com/-UEeXrZLtJCM/Xe5qS93LHBI/AAAAAAABSr4/ei1k8POBBBom8OIZmbbTRLQZVZEUKEviACK4BGAYYCw/s770/rss2.png' /></a>"
-							+ "</td>"
-
-							+ "<td>&nbsp;</td>" + "<td valign='top'>"
-
+							+ "</td><td>&nbsp;</td><td valign='top'>"
 							+ "<div style=\"color:#aaaaaa;font-family: Arial;font-size:13px;text-decoration:none;\">"
-							+ "<i>" + rss_descr + "</i>"
-
-							+ "<br/>"
-
-							+ "<a href='" + link
+							+ "<i>" + rss_descr + "</i><br /><a href='" + link
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:14px;text-decoration:none;\" target=\"_blank\"><b>"
-							+ title + "</b></a>"
-
-							+ "</div>"
-
+							+ title + "</b></a>&nbsp;<br/>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-							+ content + "</div>"
+							+ content + "<br /></div>"
 
-							+ "</td></tr></table></div><hr/>";
-
+							+ "</td></tr></table><hr/>";
 				}
 			}
-
 		} catch (Exception e) {
 			m2a("RSS error", s + " \r\n\r\n" + e.toString());
 		}
 
-		return ss;
+		return "<table><td valign='top'>" + ss + "</td></tr></table>";
 	}
 
 	public static void main(String[] args) throws Exception {
 		String s = "";
-		 s = "https://polit.ddtor.com/p/blog-page_21.html";
+		s = "https://polit.ddtor.com/p/blog-page_21.html";
 		// s = "https://galamil.blogspot.com/p/rss.html";
-		//s = "https://gamesnews.quicklydone.com/p/rss.html";
+		// s = "https://gamesnews.quicklydone.com/p/rss.html";
 
 		s = get_all_new_rss(s);
-		wf("C:\\Users\\win10\\Desktop\\___qqqqqqqqq___.html", s);
+		wf("C:\\Users\\ym\\Desktop\\___qqqqqqqqq___.html", s);
 		System.out.println("----------- END ---------------------");
 
 	}
@@ -153,6 +141,7 @@ public class kust {
 		zzz.setProperty(field, value);
 		DatastoreServiceFactory.getDatastoreService().put(zzz);
 	}
+
 	public static void s_put2(String table, String id, String field1, String value1, String field2, String value2) {
 
 		Entity zzz = new Entity(table, id);
@@ -284,8 +273,14 @@ public class kust {
 
 		Document doc = Jsoup.parse(s);
 		for (Element img : doc.select("img")) {
-			img.attr("width", "560");
-			// img.attr("width", "320");
+			// img.attr("width", "560");
+			// if (img.attr("width") == null)
+			// try {
+			// if (Integer.parseInt(img.attr("width")) > 320)
+			img.attr("width", "320");
+			// } catch (Exception e) {
+			// m2a("Error kust.fit(IMG width)", e.toString());
+			// }
 			img.removeAttr("height");
 		}
 		for (Element iframe : doc.select("iframe")) {
@@ -324,58 +319,61 @@ public class kust {
 		for (String s2 : s.split("<br />"))
 			ss = ss + get_h_rss(s2, 4);
 
+		ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";
+
 		return ss;
 	}
 
 	public static String get_date_eng() {
-	
+
 		Date dd = new Date();
-	
+
 		TimeZone tz = TimeZone.getTimeZone("est");
 		Calendar cc = Calendar.getInstance(tz);
 		cc.setTime(dd);
 		cc.add(Calendar.HOUR, -1);
-	
+
 		String s_hh = String.valueOf(cc.get(Calendar.HOUR_OF_DAY));
 		String s_mm = String.valueOf(String.format("%02d", cc.get(Calendar.MINUTE)));
 		String s_dofm = String.valueOf(cc.get(Calendar.DAY_OF_MONTH));
-		String s_dow = String.valueOf(cc.get(Calendar.DAY_OF_WEEK)).replace("1", "Suday")
-				.replace("2", "Monday").replace("3", "Tuesday").replace("4", "Wednesday").replace("5", "Thursday")
-				.replace("6", "Friday").replace("7", "Saturday");
-	
+		String s_dow = String.valueOf(cc.get(Calendar.DAY_OF_WEEK)).replace("1", "Suday").replace("2", "Monday")
+				.replace("3", "Tuesday").replace("4", "Wednesday").replace("5", "Thursday").replace("6", "Friday")
+				.replace("7", "Saturday");
+
 		String s = String.valueOf(cc.get(Calendar.MONTH));
-		s = s.replace("10", " November ").replace("11", " December ").replace("0", " January ").replace("1", " February ")
-				.replace("2", " March ").replace("3", " April ").replace("4", " May ").replace("5", " June ")
-				.replace("6", " July ").replace("7", " August ").replace("8", " September ").replace("9", " October ");
-	
-		s = s_hh + ":" + s_mm + " " + s_dow + ", "  + s + s_dofm;
-	
+		s = s.replace("10", " November ").replace("11", " December ").replace("0", " January ")
+				.replace("1", " February ").replace("2", " March ").replace("3", " April ").replace("4", " May ")
+				.replace("5", " June ").replace("6", " July ").replace("7", " August ").replace("8", " September ")
+				.replace("9", " October ");
+
+		s = s_hh + ":" + s_mm + " " + s_dow + ", " + s + s_dofm;
+
 		return s;
 	}
 
 	public static String get_date_rus3() {
-	
+
 		Date dd = new Date();
-	
+
 		TimeZone tz = TimeZone.getTimeZone("Europe/Moscow");
 		Calendar cc = Calendar.getInstance(tz);
 		cc.setTime(dd);
 		cc.add(Calendar.HOUR, -1);
-	
+
 		String s_hh = String.valueOf(cc.get(Calendar.HOUR_OF_DAY));
 		String s_mm = String.valueOf(String.format("%02d", cc.get(Calendar.MINUTE)));
 		String s_dofm = String.valueOf(cc.get(Calendar.DAY_OF_MONTH));
 		String s_dow = String.valueOf(cc.get(Calendar.DAY_OF_WEEK)).replace("1", "воскресенье")
 				.replace("2", "понедельник").replace("3", "вторник").replace("4", "среда").replace("5", "четверг")
 				.replace("6", "пятница").replace("7", "суббота");
-	
+
 		String s = String.valueOf(cc.get(Calendar.MONTH));
-		s = s.replace("10", " ноябрь ").replace("11", " декабрь ").replace("0", " январь ").replace("1", " февраль ")
-				.replace("2", " март ").replace("3", " апрель ").replace("4", " май ").replace("5", " июнь ")
-				.replace("6", " июль ").replace("7", " август ").replace("8", " сентябрь ").replace("9", " октябрь ");
-	
+		s = s.replace("10", " ноября ").replace("11", " декабря ").replace("0", " января ").replace("1", " февраля ")
+				.replace("2", " марта ").replace("3", " апреля ").replace("4", " мая ").replace("5", " июня ")
+				.replace("6", " июля ").replace("7", " августа ").replace("8", " сентября ").replace("9", " октября ");
+
 		s = s_hh + ":" + s_mm + " " + s_dow + " " + s_dofm + s;
-	
+
 		return s;
 	}
 

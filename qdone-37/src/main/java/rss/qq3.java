@@ -13,17 +13,17 @@ public class qq3 extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		//response.setContentType("text/html");
-		//response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
 		String shttp = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 				+ request.getContextPath();
 		String s = "";
-		
 		try {
 			s = "https://polit.ddtor.com/p/blog-page_21.html";
 			s = kust.rfu_utf(shttp + "/qq2?" + s);
-			kust.send_mail("", "ymilov@gmail.com", "", "ymilov.k9992.tverskoy@blogger.com", kust.get_date_rus3(), s);
-					
+			if (s.length() > 222)
+				kust.send_mail("", "ymilov@gmail.com", "", "ymilov.k9992.tverskoy@blogger.com", kust.get_date_rus3(),
+						s);
 		} catch (Exception e) {
 			s = e.toString();
 			kust.m2a("Error qq3", s);
@@ -32,25 +32,25 @@ public class qq3 extends HttpServlet {
 		try {
 			s = "https://gamesnews.quicklydone.com/p/rss.html";
 			s = kust.rfu_utf(shttp + "/qq2?" + s);
-			kust.send_mail("Ymilog", "ymilov@gmail.com", "", "ymilov.gmsn123@blogger.com", kust.get_date_eng(), s);
+			if (s.length() > 222)
+				kust.send_mail("Ymilog", "ymilov@gmail.com", "", "ymilov.gmsn123@blogger.com", "", s);
 		} catch (Exception e) {
 			s = e.toString();
 			kust.m2a("Error qq3", s);
 		}
-		
+
 		try {
 			s = "https://galamil.blogspot.com/p/rss.html";
 			s = kust.rfu_utf(shttp + "/qq2?" + s);
-			kust.send_mail("Ymilog", "ymilov@gmail.com", "", "ymilov.qdone@blogger.com", kust.get_date_eng(), s);
+			if (s.length() > 222)
+				kust.send_mail("Ymilog", "ymilov@gmail.com", "", "galamil.qdone@blogger.com", "", s);
 		} catch (Exception e) {
 			s = e.toString();
 			kust.m2a("Error qq3", s);
+		}
+
+		PrintWriter wr = response.getWriter();
+		wr.print(s);
+		wr.close();
 	}
-
-		//PrintWriter wr = response.getWriter();
-		//wr.print(s);
-		//wr.close();
-
-	}
-
 }
