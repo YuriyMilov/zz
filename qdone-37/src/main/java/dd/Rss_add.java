@@ -15,7 +15,7 @@ import dd.stkl;
 
 //import com.google.gwt.user.server.Base64Utils;
 @WebServlet(
-	    name = "dd.Rss_add",
+	    name = "zz.Rss_add",
 	    urlPatterns = {"/rss"}
 	)
 

@@ -21,13 +21,10 @@ public class HelloAppEngine extends HttpServlet {
     response.setCharacterEncoding("UTF-8");
 	String s = "ok";
 	try {
-		s=kust.s_get("aa","bb","11");
+		s=ds.s_get("aa","bb","11");
 		response.getWriter().print(s);
 	} catch (Exception e) {
-		kust.m2a("error", "HelloAppEngine s=kust.s_get(\"aa\",\"bb\",\"11\"); \r\n\r\n" + e.toString());				
+		kust.w2a("error", "HelloAppEngine s=rss.kust.s_get(\"aa\",\"bb\",\"11\"); \r\n\r\n" + e.toString());				
 	}   
-
-  }
-  
-  
+  }  
 }  

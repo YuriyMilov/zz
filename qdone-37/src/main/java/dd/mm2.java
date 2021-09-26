@@ -23,7 +23,7 @@ import org.jsoup.Jsoup;
 import dd.stkl;
 
 @WebServlet(
-	    name = "dd.mm2",
+	    name = "zz.mm2",
 	    urlPatterns = {"/mm2"}
 	)
 public class mm2 extends HttpServlet {

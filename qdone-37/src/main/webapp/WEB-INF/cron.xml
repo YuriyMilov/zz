@@ -3,12 +3,26 @@
 
 
 	<cron>
-		<url>/qq3</url>
-		<description>  games-news  update </description>
-		<schedule>every 240 minutes</schedule>
+		<url>/gm?8</url>
+		<description> galamil.appspot.com  </description>
+		<schedule>every 8 hours</schedule>
 		<timezone>America/New_York</timezone>
 	</cron>
-
+	
+	<cron>
+		<url>/polit?2</url>
+		<description>  polit.ddtor.com </description>
+		<schedule>every 2 hours</schedule>
+		<timezone>America/New_York</timezone>
+	</cron>
+	
+	<cron>
+		<url>/games?4</url>
+		<description>  gamesnews.quicklydone.com </description>
+		<schedule>every 4 hours</schedule>
+		<timezone>America/New_York</timezone>
+	</cron>
+	
 <!-- 
 	<cron>
 		<url>/rss</url>
