@@ -72,7 +72,7 @@ public class kust {
 				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
 
-			//	System.out.println("-- Date -> " + d + " -->> " + bb);
+				System.out.println("-- Date -> " + d + " -->> " + bb);
 
 				if (!bb) {
 				} else {
@@ -115,12 +115,36 @@ public class kust {
 		//s = "https://gamesnews.quicklydone.com/p/rss.html";
 
 		//s = rss_all(s, 48);
-		//w2f("C:\\Users\\ym\\Desktop\\___qqqqqqqqq___.html", s);
 
-System.out.println(s);
+		
+		s = "https://galamil.blogspot.com/p/rss.html";
+		s=rfu_utf(s);
+int i = s.indexOf("---begin---<br />");
+		
+		if (i > -1) {
+			s = s.substring(i);
+			i = s.indexOf("---end---");
+			s = s.substring(0, i);
+			s = s.replace("---begin---", "").replace("---end---", "").replace("<div>", "").replace("</div>", "").trim();
+		} 
+		
+	
+	
+		String[] sss = s.split("<br />");
+String ss="";
+		for (String s2 : sss)
+			if(s2.trim().length()>5)
+			{
+				System.out.println(s2);
+				ss = ss + rss_h(s2, 8);
+			}
 
-System.out.println(LocalDateTime.now(ZoneId.of("America/Toronto")).format(DateTimeFormatter.ofPattern("HH:mm MMM dd")));
-System.out.println("\r\n------------------- END ---------------------");
+
+//System.out.println(LocalDateTime.now(ZoneId.of("America/Toronto")).format(DateTimeFormatter.ofPattern("HH:mm MMM dd")));
+
+		w2f("C:\\Users\\ym\\Desktop\\___qqqqqqqqq___.html", ss);
+		
+		System.out.println("------------------- END ---------------------");
 
 	}
 

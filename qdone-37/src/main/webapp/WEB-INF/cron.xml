@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <cronentries>
-
+<!-- 
 
 	<cron>
 		<url>/gm?8</url>
@@ -23,7 +23,7 @@
 		<timezone>America/New_York</timezone>
 	</cron>
 	
-<!-- 
+
 	<cron>
 		<url>/rss</url>
 		<description>  news update</description>
