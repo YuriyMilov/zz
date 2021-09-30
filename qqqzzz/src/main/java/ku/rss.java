@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.time.Duration;
@@ -39,41 +40,56 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
+
+
 @WebServlet(
-    name = "ku.ku",
-    urlPatterns = {"/ku"}
+    name = "ku.rss",
+    urlPatterns = {"/rss"}
 )
-public class ku extends HttpServlet {
+public class rss extends HttpServlet {
+
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException {
 
-    response.setContentType("text/plain");
-    response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("UTF-8");
 
-    response.getWriter().print("Hello App Engine!\r\n");
-
+		String s = "", adr_from = "kuka@quicklydone.com", adr_to = "ymilov@blogger.com", url = "https://polit.ddtor.com/p/blog-page_21.html";
+		String u="-", hs="-", from="-", to="-";
+				int h = 2;
+		try {
+			 u = request.getParameter("u");
+			 hs = request.getParameter("h");
+			 to = request.getParameter("to");
+			 from = request.getParameter("from");
+			if (hs != null)
+				h = Integer.parseInt(hs);
+			if (u != null)
+				url = u;
+			if (to != null)
+				adr_to = to;
+			if (from != null)
+				adr_from = from;
+			s = rss.rss_all(url, h);			
+			if (s.length() > 222)
+				rss.w2m("Kuka", adr_from, "", adr_to, rss.rus_date(), s);
+			} catch (Exception e) {
+			rss.w2a("Error rss.qqrss", "u=" +u + " hs=" + hs + " to=" + to + " from=" + from + " \r\n" + e.toString());
+		}
+	
+		PrintWriter wr = response.getWriter();
+		wr.print(s);
+		wr.close();
   }
-
-	public static void main(String[] args) throws Exception {
-		String s = "";
-		// s = "https://polit.ddtor.com/p/blog-page_21.html";
-		// s="https://gamesnews.quicklydone.com/p/rss-2_27.html";
-		//s = "https://ont.ddtor.com/p/rss.html";
-		s = "https://gamesnews.quicklydone.com/p/rss.html";
-
-		s = rss_all(s, 8);
-		
-		
-		w2f("C:\\Users\\ym\\Desktop\\___qqqqqqqqq___.html", s);
-		System.out.println("------------------ OK ----------------------");
-	}
 
 	static public final String rss_h(String s, int i) throws Exception {
 
 		System.out.println("-- RSS -> " + s);
-
+		//if(!qq3.sgood.contains(s))
+		//	qq3.sgood=qq3.sgood + s + "\r\n";
+		
 		String ss = "", link = "", title = "", content = "", tt = "";
 		int ii = -1;
 		try {
@@ -114,7 +130,7 @@ public class ku extends HttpServlet {
 
 					String dt = localDateTime.format(DateTimeFormatter.ofPattern("MMM dd, HH:mm")) + "    " + tt;
 
-					ss = ss + "<table><tr><td valign='top'><a href='" + link
+				/*	ss = ss + "<table><tr><td valign='top'><a href='" + link
 							+ "' target='_blank'><img src='http://3.bp.blogspot.com/-UEeXrZLtJCM/Xe5qS93LHBI/AAAAAAABSr4/ei1k8POBBBom8OIZmbbTRLQZVZEUKEviACK4BGAYYCw/s770/rss2.png' /></a></td>"
 							+ "<td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
 							+ dt + "</div></td></tr>" + "<tr><td></td><td></td>" + "<td valign='top'>"
@@ -123,7 +139,18 @@ public class ku extends HttpServlet {
 							+ title + "</b></a>&nbsp;<br/></div>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
 							+ content + "<br /></div></td></tr></table><hr/>";
-
+*/
+					
+					ss = ss + "<table><tr>"
+							+ "<td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
+							+ dt + "</div></td></tr>" + "<tr><td></td><td valign='top'>"
+							+ "<div><a href='" + link
+							+ "' style=\"color:#0044bb;font-family: Arial;font-size:14px;text-decoration:none;\" target=\"_blank\"><b>"
+							+ title + "</b></a>&nbsp;<br/></div>"
+							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ content + "<br /></div></td></tr></table><hr/>";
+					
+					
 				}
 			}
 		} catch (Exception e) {
