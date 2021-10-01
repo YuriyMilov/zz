@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * This mock class is created to enable basic unit testing of the
+<<<<<<< HEAD:qdone21/src/test/java/MockHttpServletResponse.java
  * {@link HelloAppEngine} class. Only methods used in the unit test
+=======
+ * {@link rss} class. Only methods used in the unit test
+>>>>>>> 1edb9d52bcff1235af15ce19e3296c7c3f97b538:qqqzzz/src/test/java/ku/MockHttpServletResponse.java
  * have a non-trivial implementation.
  * 
  * Feel free to change this class or replace it using other ways for testing
