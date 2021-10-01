@@ -26,6 +26,8 @@ public class qqrss extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		String s = kust.w2a("qqqqqqqqqqqq", "aaaaaaaaaaaaaaaa");
+		/*
 		String s = "", adr_from = "kuka@quicklydone.com", adr_to = "ymilov@gmail.com", url = "https://polit.ddtor.com/p/blog-page_21.html";
 		String u="-", hs="-", from="-", to="-";
 				int h = 2;
@@ -48,6 +50,7 @@ public class qqrss extends HttpServlet {
 			} catch (Exception e) {
 			kust.w2a("Error rss.qqrss", "u=" +u + " hs=" + hs + " to=" + to + " from=" + from + " \r\n" + e.toString());
 		}
+		*/
 		PrintWriter wr = response.getWriter();
 		wr.print(s);
 		wr.close();

@@ -1,20 +1,28 @@
-package ku;
+package rss;
 
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Scanner;
+import java.util.TimeZone;
 
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -23,15 +31,10 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndEntryImpl;
@@ -39,22 +42,7 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
-@WebServlet(
-    name = "ku.ku",
-    urlPatterns = {"/ku"}
-)
-public class ku extends HttpServlet {
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) 
-      throws IOException {
-
-    response.setContentType("text/plain");
-    response.setCharacterEncoding("UTF-8");
-
-    response.getWriter().print("Hello App Engine!\r\n");
-
-  }
+public class kust {
 
 	public static void main(String[] args) throws Exception {
 		String s = "";
@@ -62,8 +50,9 @@ public class ku extends HttpServlet {
 		// s="https://gamesnews.quicklydone.com/p/rss-2_27.html";
 		//s = "https://ont.ddtor.com/p/rss.html";
 		s = "https://gamesnews.quicklydone.com/p/rss.html";
+		s="https://zmt.ddtor.com/p/rss.html";
 
-		s = rss_all(s, 8);
+		s = rss_all(s, 12);
 		
 		
 		w2f("C:\\Users\\ym\\Desktop\\___qqqqqqqqq___.html", s);
@@ -263,8 +252,30 @@ public class ku extends HttpServlet {
 	}
 
 	public static String rus_date() {
-	return LocalDateTime.now(ZoneId.of("America/Toronto")).format(DateTimeFormatter.ofPattern("MMM dd, HH:mm"));
+		/*
+		 * Date dd = new Date();
+		 * 
+		 * TimeZone tz = TimeZone.getTimeZone("Europe/Moscow"); Calendar cc =
+		 * Calendar.getInstance(tz); cc.setTime(dd); cc.add(Calendar.HOUR, -1);
+		 * 
+		 * String s_hh = String.valueOf(cc.get(Calendar.HOUR_OF_DAY)); String s_mm =
+		 * String.valueOf(String.format("%02d", cc.get(Calendar.MINUTE))); String s_dofm
+		 * = String.valueOf(cc.get(Calendar.DAY_OF_MONTH)); String s_dow =
+		 * String.valueOf(cc.get(Calendar.DAY_OF_WEEK)).replace("1", "воскресенье")
+		 * .replace("2", "понедельник").replace("3", "вторник").replace("4",
+		 * "среда").replace("5", "четверг") .replace("6", "пятница").replace("7",
+		 * "суббота");
+		 * 
+		 * String s = String.valueOf(cc.get(Calendar.MONTH)); s = s.replace("10",
+		 * " ноября ").replace("11", " декабря ").replace("0", " января ").replace("1",
+		 * " февраля ") .replace("2", " марта ").replace("3", " апреля ").replace("4",
+		 * " мая ").replace("5", " июня ") .replace("6", " июля ").replace("7",
+		 * " августа ").replace("8", " сентября ").replace("9", " октября ");
+		 * 
+		 * s = s_hh + ":" + s_mm + " " + s_dow + " " + s_dofm + s;
+		 */
+
+		return LocalDateTime.now(ZoneId.of("America/Toronto")).format(DateTimeFormatter.ofPattern("MMM dd, HH:mm"));
 	}
 
-  
 }
