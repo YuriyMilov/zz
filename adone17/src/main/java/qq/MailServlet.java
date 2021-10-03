@@ -56,7 +56,7 @@ public class MailServlet extends HttpServlet {
       msg.setFrom(new InternetAddress("ymilov@gmail.com", "Example.com Admin"));
       msg.addRecipient(
           Message.RecipientType.TO, new InternetAddress("ymilov@gmail.com", "Mr. User"));
-      msg.setSubject("Your rrrrrrrrrrrrrrrrr  account has been uuuuuuuuuuuu");
+      msg.setSubject("Your rrrrrrrr    hi  rrrrrrrrr  account has been uuu");
       msg.setText("This is a test");
       Transport.send(msg);
     } catch (Exception e) {
