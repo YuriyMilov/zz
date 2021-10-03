@@ -1,7 +1,6 @@
 package qq;
 
 import java.io.BufferedReader;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -46,7 +45,7 @@ public class rss {
 			List<SyndEntry> synd_entry = feed.getEntries();
 			tt = feed.getTitle();
 			if (tt.contains("Google Alert - ")) {
-				i = i + 4;
+				i = i + 6;
 				tt = tt.replace("Google Alert - ", "");
 			}
 			for (Object o : synd_entry) {
@@ -105,12 +104,6 @@ public class rss {
 
 		return "<table><td valign='top'>" + ss + "</td></tr></table>";
 	}
-
-	public static void w2f(String f, String s) throws Exception {
-		FileWriter myWriter = new FileWriter(f);
-		myWriter.write(s);
-		myWriter.close();
-	};
 
 	public static String rfu_utf(String s) {
 		try {

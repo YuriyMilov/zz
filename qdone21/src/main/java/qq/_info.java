@@ -4,74 +4,32 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class _info {
+public class _info { 
 
 	public static void main(String[] args) throws Exception {
-		String s="";
+//		String s = "https://www.google.com/alerts/feeds/04888279385366086103/14719186293862211996";
+	//	s = "https://api.foxsports.com/v1/rss";
 		
-		s= "https://www.google.com/alerts/feeds/04888279385366086103/14719186293862211996";
-				
-			s= rss.rss_h(s, 2);
-			rss.w2f("C:\\Users\\ym\\Desktop\\___qqqqqqqqq___.html", s);
-			
+		f2f("C:\\Users\\ym\\Desktop\\___IN___.txt","C:\\Users\\ym\\Desktop\\____OUT___.html", 8);
 		System.out.println("------------------ OK ----------------------");
-
-		
 	}
-	
-	public static void get_url(String s, int i) throws Exception
-	{
-		s="https://www.google.com/alerts/feeds/04888279385366086103/14719186293862211996";
-	s = rss.rss_all(s, i);
+
+	public static String get_url(String s, int i) throws Exception {
+		s = rss.rss_h(s, i);
+		return s;
 	}
-	public static void get_file(String s, int i) throws Exception
-	{
-	
-		// "https://blog.feedspot.com/healthy_living_rss_feeds/";
-		s = "C:\\Users\\win10\\Desktop\\qqq.txt";
-		s = String.join("\r\n", Files.readAllLines(Paths.get(s)));
-		get_all_from_file(s);
 
-		// s= "C:\\Users\\win10\\Desktop\\qqq.txt";
-		// s = String.join("\n\r", Files.readAllLines(Paths.get(s)));
-		//System.out.println(s);
-
-		System.out.println("------------------ OK ----------------------");
-		
-		//FileWriter fw = new FileWriter("C:\\Users\\win10\\Desktop\\qq-44.txt");
-		//fw.write(sgood);
-		//fw.close();
-
-		System.out.println("=====****  OK  ****=======");
+	public static void f2f(String f1, String f2, int i) throws Exception {
+		String ss="";
+		for(String s2: Files.readAllLines(Paths.get(f1)))
+		{
+			s2 = rss.rss_h(s2, i);
+			ss=ss+s2+"<br />";
+		}
+		w2f(f2,ss);		
 	}
-	public static void get_feeds(String s, int i) throws Exception
-	{
-	s = rss.rss_all(s, i);
-	}
-	
-	public static void get_all_from_file(String s) throws Exception {
-		String[] sss = s.split("\r\n");
-		//String ss = "";
-		String s3 = "", ss3 = "";
-		for (String s2 : sss) {
-					s3 = rss.rss_h(s2, 6);
-					ss3 = ss3 + s3;
-				//	ss = ss + s2 + "\r\n";
-				System.out.println("\r\n-----------------------\r\n");
-			}
 
-		FileWriter fw = new FileWriter("C:\\Users\\win10\\Desktop\\zzz.txt.html");
-		fw.write(ss3);
-		fw.close();
-		//System.out.println(ss3);
-
-
-
-
-
-	};
-	
-	public static void get_feeds(String s) throws Exception {
+	public static void get_feedspot(String s) throws Exception {
 
 		// s=ku.rfu_utf(s);
 
@@ -110,6 +68,16 @@ public class _info {
 		fw.write(ss3);
 		fw.close();
 		System.out.println(ss);
+	}
+
+	public static String rff(String s) throws Exception {
+		return String.join("\r\n", Files.readAllLines(Paths.get(s)));
+	}
+
+	public static void w2f(String f, String s) throws Exception {
+		FileWriter myWriter = new FileWriter(f);
+		myWriter.write(s);
+		myWriter.close();
 	};
-	
+
 }
