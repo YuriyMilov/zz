@@ -25,12 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 // [END multipart_includes]
 
 @WebServlet(
-	    name = "qq.MailServlet",
-	    urlPatterns = {"/mm"}
+	    name = "qq.zz_servlet_email",
+	    urlPatterns = {"/hello"}
 	)
 
 @SuppressWarnings("serial")
-public class MailServlet extends HttpServlet {
+public class zz_servlet_email extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
