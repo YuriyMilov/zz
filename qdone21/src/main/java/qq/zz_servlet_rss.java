@@ -1,5 +1,6 @@
 package qq;
 
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.jsoup.Jsoup;
 
 @WebServlet(name = "qq.zz_servlet_rss", urlPatterns = { "/rss" })
 public class zz_servlet_rss extends HttpServlet {
@@ -46,8 +49,16 @@ public class zz_servlet_rss extends HttpServlet {
 			s = rss.rss_all(url, h);			
 			if (s.length() > 222)
 				rss.w2m("Kuka", adr_from, "", adr_to, rss.rus_date(), s);
-			
-			rss.w2a("servlet rss", "u=" +u + " hs=" + hs + " to=" + to + " from=" + from + " \r\n" + s.substring(0,200));
+			String sb=Jsoup.parse(s).text();
+			if (sb.length()>555)
+				sb=sb.substring(0,555);
+			h = u.indexOf("//");
+			if (h>0)
+				u=u.substring(h+2);
+			h = u.indexOf(".");
+			if (h>0)
+				u=u.substring(0, h);
+			rss.w2a(u, sb);
 
 			PrintWriter wr = response.getWriter();
 			wr.print(s);

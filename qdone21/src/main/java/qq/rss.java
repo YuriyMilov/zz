@@ -44,10 +44,12 @@ public class rss {
 			SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
 			List<SyndEntry> synd_entry = feed.getEntries();
 			tt = feed.getTitle();
-			if (tt.contains("Google Alert - ")) {
-				i = i + 6;
-				tt = tt.replace("Google Alert - ", "");
-			}
+			
+			if (tt.contains("Google Alert - ")) 
+				i = i + 2;
+
+			tt=tt.replace("RSS","").replace("Google Alert - ", "Goal ");
+			
 			for (Object o : synd_entry) {
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
 
@@ -99,7 +101,7 @@ public class rss {
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			w2a("Error: rss_h(s,i)", s + "\r\n" + e.toString());
+			w2a("RSS Error", s + "\r\n" + e.toString());
 		}
 
 		return "<table><td valign='top'>" + ss + "</td></tr></table>";

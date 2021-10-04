@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 // [START multipart_includes]
 // [END multipart_includes]
 
-@WebServlet(
+@WebServlet( 
 	    name = "qq.zz_servlet_email",
 	    urlPatterns = {"/hello"}
 	)
