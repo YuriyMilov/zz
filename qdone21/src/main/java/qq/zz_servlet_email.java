@@ -24,86 +24,106 @@ import javax.servlet.http.HttpServletResponse;
 // [START multipart_includes]
 // [END multipart_includes]
 
-@WebServlet( 
-	    name = "qq.zz_servlet_email",
-	    urlPatterns = {"/hello"}
-	)
+@WebServlet(name = "qq.zz_servlet_email", urlPatterns = { "/hello" })
 
 @SuppressWarnings("serial")
 public class zz_servlet_email extends HttpServlet {
 
-  @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-	  String s =" qqqqqqqq ";
-    String type = req.getParameter("type");
-    if (type != null && type.equals("multipart")) {
-      resp.getWriter().print("Sending HTML email with attachment.");
-      s= sendMultipartMail();
-    } else {
-   	s = sendSimpleMail();
-    }
-    
-    resp.getWriter().print(s);
-  }
+	@Override
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String s = " qqqqqqqq ";
+		String type = req.getParameter("type");
+		if (type != null && type.equals("multipart")) {
+			resp.getWriter().print("Sending HTML email with attachment.");
+			s = sendMultipartMail();
+		}
+		if (type != null && type.equals("admin"))
+			s = send_Admin("ymilov@gmail.com", "test", "111<b>222</b>333333");
+		else
+			s = sendSimpleMail();
 
-  private String sendSimpleMail() {
-    // [START simple_example]
-    Properties props = new Properties();
-    Session session = Session.getDefaultInstance(props, null);
+		resp.getWriter().print(s);
+	}
 
-    try {
-      Message msg = new MimeMessage(session);
-      msg.setFrom(new InternetAddress("ymilov@gmail.com", "Example.com Admin"));
-      msg.addRecipient(
-          Message.RecipientType.TO, new InternetAddress("ymilov@gmail.com", "Mr. User"));
-      msg.setSubject("Your Example.com account has been activated");
-      msg.setText("This is a test");
-      Transport.send(msg);
-    } catch (Exception e) {
-  return e.toString();
-    }
-    
-    return "Email sent";
-  }
+	private String sendSimpleMail() {
+		// [START simple_example]
+		Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
 
-  private String sendMultipartMail() {
-    Properties props = new Properties();
-    Session session = Session.getDefaultInstance(props, null);
+		try {
+			Message msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress("ymilov@gmail.com", "Example.com Admin"));
+			msg.addRecipient(Message.RecipientType.TO, new InternetAddress("ymilov@gmail.com", "Mr. User"));
+			msg.setSubject("Your Example.com account has been activated");
+			msg.setText("This is a test");
+			Transport.send(msg);
+		} catch (Exception e) {
+			return e.toString();
+		}
 
-    String msgBody = "...";
+		return "Email sent";
+	}
 
-    try {
-      Message msg = new MimeMessage(session);
-      msg.setFrom(new InternetAddress("ymilov@gmail.com", "Example.com Admin"));
-      msg.addRecipient(
-          Message.RecipientType.TO, new InternetAddress("ymilov@gmail.com", "Mr. User"));
-      msg.setSubject("Multipart email");
-      msg.setText(msgBody);
+	private String sendMultipartMail() {
+		Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
 
-      // [START multipart_example]
-      String htmlBody = "qqqqqqqqqq"; // ...
-      byte[] attachmentData = htmlBody.getBytes(); // ...
-      Multipart mp = new MimeMultipart();
+		String msgBody = "...";
 
-      MimeBodyPart htmlPart = new MimeBodyPart();
-      htmlPart.setContent(htmlBody, "text/html");
-      mp.addBodyPart(htmlPart);
+		try {
+			Message msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress("ymilov@gmail.com", "Example.com Admin"));
+			msg.addRecipient(Message.RecipientType.TO, new InternetAddress("ymilov@gmail.com", "Mr. User"));
+			msg.setSubject("Multipart email");
+			msg.setText(msgBody);
 
-      MimeBodyPart attachment = new MimeBodyPart();
-      InputStream attachmentDataStream = new ByteArrayInputStream(attachmentData);
-      attachment.setFileName("manual.txt");
-      //attachment.setContent(attachmentDataStream, "application/pdf");
-      attachment.setContent(attachmentDataStream, "application/txt");
-      mp.addBodyPart(attachment);
+			// [START multipart_example]
+			String htmlBody = "qqqqqqqqqq"; // ...
+			byte[] attachmentData = htmlBody.getBytes(); // ...
+			Multipart mp = new MimeMultipart();
 
-      msg.setContent(mp);
-      // [END multipart_example]
+			MimeBodyPart htmlPart = new MimeBodyPart();
+			htmlPart.setContent(htmlBody, "text/html");
+			mp.addBodyPart(htmlPart);
 
-      Transport.send(msg);
+			MimeBodyPart attachment = new MimeBodyPart();
+			InputStream attachmentDataStream = new ByteArrayInputStream(attachmentData);
+			attachment.setFileName("manual.txt");
+			// attachment.setContent(attachmentDataStream, "application/pdf");
+			attachment.setContent(attachmentDataStream, "application/txt");
+			mp.addBodyPart(attachment);
 
-    } catch (Exception e) {
-    	return e.toString(); 
-    }
-    return "Multipart email sent";
-  }
+			msg.setContent(mp);
+			// [END multipart_example]
+
+			Transport.send(msg);
+
+		} catch (Exception e) {
+			return e.toString();
+		}
+		return "Multipart email sent";
+	}
+
+	public static String send_Admin(String to, String subject, String body) {
+		Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
+		Message msg = new MimeMessage(session);
+
+		try {
+			msg.setFrom(new InternetAddress(to, "Admin"));
+			msg.addRecipient(Message.RecipientType.TO, new InternetAddress("admins"));
+			msg.setSubject(subject);
+			// msg.setText(body);
+			msg.setContent(body, "text/html;charset=utf-8");
+
+			Multipart mp = new MimeMultipart();
+			MimeBodyPart textPart = new MimeBodyPart();
+			textPart.setContent(body, "text/html;charset=utf-8");
+			mp.addBodyPart(textPart);
+			Transport.send(msg);
+		} catch (Exception e) {
+			return e.toString();
+		}
+		return "sent as admin";
+	}
 }

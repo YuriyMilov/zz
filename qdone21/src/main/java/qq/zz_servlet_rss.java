@@ -49,6 +49,7 @@ public class zz_servlet_rss extends HttpServlet {
 			s = rss.rss_all(url, h);			
 			if (s.length() > 222)
 				rss.w2m("Kuka", adr_from, "", adr_to, rss.rus_date(), s);
+<<<<<<< HEAD
 			String sb=s;
 			sb = sb.replace("<hr/>", "qqq").replace("<br />", "qqq");
 			
@@ -56,6 +57,18 @@ public class zz_servlet_rss extends HttpServlet {
 			sb = sb.replace("qqq", "<br />");
 			if (sb.length()>5555)
 				sb=sb.substring(0,5555);
+=======
+			
+			String sb=s.replace("<br />", "qqqym").replace("<hr/>", "qqqym");
+					sb=Jsoup.parse(sb).text();
+					sb=s.replace("qqqym", "\r\n");
+					
+					
+			if (sb.length()>5555)
+				sb=sb.substring(0,5555);
+			sb=h + " " + sb;  
+			
+>>>>>>> 90d11124417f65fe3aaee344f1e79e97898c634c
 			h = u.indexOf("//");
 			if (h>0)
 				u=u.substring(h+2);
