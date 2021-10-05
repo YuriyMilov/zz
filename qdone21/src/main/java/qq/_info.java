@@ -12,10 +12,10 @@ public class _info {
 		
 		String s="https://sport.ddtor.com/p/rss.html";
 
-		w2f("C:\\Users\\ym\\Desktop\\____OUT___.html", rss.rss_all(s, 2));
+		//w2f("C:\\Users\\ym\\Desktop\\____OUT___.html", rss.rss_all(s, 2));
 		
 		
-		//f2f("C:\\Users\\ym\\Desktop\\___IN___.txt","C:\\Users\\ym\\Desktop\\____OUT___.html", 8);
+		f2f("C:\\Users\\ym\\Desktop\\___IN___.txt","C:\\Users\\ym\\Desktop\\____OUT___.html", 8);
 		
 		System.out.println("------------------ OK ----------------------");
 	}

@@ -41,6 +41,7 @@ public class rss {
 		String ss = "", link = "", title = "", content = "", tt = "";
 		int ii = -1;
 		try {
+
 			SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
 			List<SyndEntry> synd_entry = feed.getEntries();
 			tt = feed.getTitle();
@@ -51,6 +52,11 @@ public class rss {
 			tt=tt.replace("RSS","").replace("Google Alert - ", "Goal ");
 			
 			for (Object o : synd_entry) {
+				
+				
+				
+				
+				
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
 
 				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
