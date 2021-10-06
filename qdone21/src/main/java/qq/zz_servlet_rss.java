@@ -57,7 +57,7 @@ public class zz_servlet_rss extends HttpServlet {
 					
 			if (sb.length()>5555)
 				sb=sb.substring(0,5555);
-			sb=h + " " + sb;  
+			sb=h + " \r\n" + sb;  
 			
 			h = u.indexOf("//");
 			if (h>0)
@@ -65,7 +65,8 @@ public class zz_servlet_rss extends HttpServlet {
 			h = u.indexOf(".");
 			if (h>0)
 				u=u.substring(0, h);
-			rss.w2a(u, sb);
+			
+			s = rss.w2a(u, sb);
 
 			PrintWriter wr = response.getWriter();
 			wr.print(s);
