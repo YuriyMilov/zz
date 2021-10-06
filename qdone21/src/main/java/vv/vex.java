@@ -67,21 +67,19 @@ public class vex {
 				String source2 = Jsoup.parse("</"+ss[10]).text();
 				String source3 = Jsoup.parse("</"+ss[15]).text();
 				
-				s11=s11  + "<table><tr><td>&nbsp;<img src='" + whatisthis + "'></td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
-						+ source1 + "<br />" + date1  + "<br />" + traffic + "<br /><a href='" + link1 + "' style=\\\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>\r\n"
-						+ title1 + "</b></a></div></td></tr></table>"
-								+ ""
-								+ "<table><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
-						+ source2 + "</div></td></tr>" + "<tr><td></td>" + "<td valign='top'>" + "<div><a href='" + link2
+				s11=s11  + "<table><tr><td>&nbsp;<img src='" + whatisthis + "'></td><td valign='top'><div style=\"color:#999999;font-family: Arial;font-size:12px;text-decoration:none;\">"
+						+ "<a href='" + link1 + "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
+						+ title1 + "</b></a><br /><i>" + date1  + "<br />" + traffic + "</i></div></td></tr></table>"
+								
+						+ "<table><tr><td></td><td valign='top'><div><a href='" + link2
 						+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
-						+ title2 + "</b></a>&nbsp;<br/><br /></div>"
-						+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-						+ content2 + "<br /><br /></div></td></tr><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
-						+ source3 + "</div></td></tr>" + "<tr><td></td>" + "<td valign='top'>" + "<div><a href='" + link3
+						+ title2 + "</b></a>&nbsp;</div><div style=\"color:#999999;font-family: Arial;font-size:12px;\"><i>"
+						+ source3 +"</i><div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
+						+ content2 + "</div></td></tr><tr><td></td><td valign='top'><div><a href='" + link3
 						+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
-						+ title3 + "</b></a>&nbsp;<br/><br /></div>"
+						+ title3 + "</b></a>&nbsp;</div><div style=\"color:#999999;font-family: Arial;font-size:12px;\"><i>"+ source3 +"</i></div>"
 						+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-						+ content3 + "<br /><br /></div></td></tr></table><hr/>";
+						+ content3 + "</div></td></tr></table><hr/>";
 			}
 			i++;
 		}

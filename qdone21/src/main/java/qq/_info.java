@@ -10,14 +10,16 @@ public class _info {
 //		String s = "https://www.google.com/alerts/feeds/04888279385366086103/14719186293862211996";
 	//	s = "https://api.foxsports.com/v1/rss";
 		
-		String s="https://sport.ddtor.com/p/rss.html";
-
-		//w2f("C:\\Users\\ym\\Desktop\\____OUT___.html", rss.rss_all(s, 2));
+		//String s="https://sport.ddtor.com/p/rss.html";
+		
+		String s= "https://trends.google.com/trends/trendingsearches/daily/rss";
+		s=rss.rss_gug(s);
+	w2f("C:\\Users\\ym\\Desktop\\____OUT_2__.html", s);
 		
 		
-		f2f("C:\\Users\\ym\\Desktop\\___IN___.txt","C:\\Users\\ym\\Desktop\\____OUT___.html", 8);
+		//f2f("C:\\Users\\ym\\Desktop\\___IN___.txt","C:\\Users\\ym\\Desktop\\____OUT___.html", 8);
 		
-		System.out.println("------------------ OK ----------------------");
+		System.out.println("------------------ OK 2 ----------------------");
 	}
 
 	public static String get_url(String s, int i) throws Exception {
