@@ -34,7 +34,7 @@ public class zz_servlet_gug extends HttpServlet {
 
 		String s= "https://trends.google.com/trends/trendingsearches/daily/rss";
 			s=rss.rss_gug(s);
-			rss.w2m("Ymilog", "ymilov@gmail.com", "", "ymilov@gmail.com", rss.rus_date(), s);
+			rss.w2m("Ymilog", "kuka@quicklydone.com", "", "kuka2.trends@blogger.com", rss.rus_date(), s);
 			PrintWriter wr = response.getWriter();
 			wr.print(s);
 			wr.close();

@@ -1,15 +1,18 @@
-package vv;
+package ww;
 
 import org.jsoup.Jsoup;
 
 import qq._info;
+import qq.rss;
 
-public class vex {
+public class gug {
 
 	public static void main(String[] args) throws Exception {
 
-		String s = qq._info.rff("C:\\Users\\ym\\Desktop\\zzz.txt");
-		
+		//String s = qq._info.rff("C:\\Users\\ym\\Desktop\\zzz.txt");
+		String s= "https://trends.google.com/trends/trendingsearches/daily/rss";
+		s=rss.rfu_utf(s);
+
 		String sss[] = 	s.split("</");
 		System.out.println(">>>>>>>>>>> TITLE --------------->"+sss[0].substring(1+sss[0].lastIndexOf(">")));
 		System.out.println(">>>>>>>>>>> DESCRIPTION --------->"+sss[1].substring(1+sss[1].lastIndexOf(">")));
@@ -84,8 +87,8 @@ public class vex {
 			i++;
 		}
 
-		_info.w2f("C:\\Users\\ym\\Desktop\\____OUT___.html",s11);
-		// System.out.println(s11);
+		_info.w2f("C:\\Users\\win10\\Desktop\\____OUT___.html",s11);
+		 System.out.println("--------------   OK  ---------------");
 
 	}
 
