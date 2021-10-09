@@ -1,4 +1,4 @@
-package qq;
+package vv;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 // [START multipart_includes]
 // [END multipart_includes]
 
-@WebServlet(name = "qq.zz_servlet_email", urlPatterns = { "/hello" })
+@WebServlet(name = "vv.zz_servlet_email", urlPatterns = { "/hello" })
 
 @SuppressWarnings("serial")
 public class zz_servlet_email extends HttpServlet {

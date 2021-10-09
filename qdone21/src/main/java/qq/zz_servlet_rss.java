@@ -50,89 +50,12 @@ public class zz_servlet_rss extends HttpServlet {
 			if (s.length() > 222)
 				rss.w2m("Kuka", adr_from, "", adr_to, rss.rus_date(), s);
 
-			/*
-			String sb= s.replace("<hr/>", "qqq").replace("<br />", "qqq");
-			
-			sb= Jsoup.parse(sb).text();
-			sb = sb.replace("qqq", "\r\n");
-			if (sb.length()>5555)
-				sb=sb.substring(0,5555);
 
-			sb= url + " " + sb;  
-			
-			h = u.indexOf("//");
-			if (h>0)
-				u=u.substring(h+2);
-			h = u.indexOf(".");
-			if (h>0)
-				u=u.substring(0, h);
-			rss.w2a(u, sb);
-
-			*/
 			PrintWriter wr = response.getWriter();
 			wr.print(s);
 			wr.close();
 	}
 
-	private String sendSimpleMail() {
-	    // [START simple_example]
-	    Properties props = new Properties();
-	    Session session = Session.getDefaultInstance(props, null);
 	
-	    try {
-	      Message msg = new MimeMessage(session);
-	      msg.setFrom(new InternetAddress("ymilov@gmail.com", "Example.com Admin"));
-	      msg.addRecipient(
-	          Message.RecipientType.TO, new InternetAddress("ymilov@gmail.com", "Mr. User"));
-	      msg.setSubject("test");
-	      msg.setText("This is a test");
-	      Transport.send(msg);
-	    } catch (Exception e) {
-	  return e.toString();
-	    }
-	    
-	    return "Email sent";
-	  }
-
-	private String sendMultipartMail() {
-	    Properties props = new Properties();
-	    Session session = Session.getDefaultInstance(props, null);
-	
-	    String msgBody = "...";
-	
-	    try {
-	      Message msg = new MimeMessage(session);
-	      msg.setFrom(new InternetAddress("ymilov@gmail.com", "Example.com Admin"));
-	      msg.addRecipient(
-	          Message.RecipientType.TO, new InternetAddress("ymilov@gmail.com", "Mr. User"));
-	      msg.setSubject("Multipart email");
-	      msg.setText(msgBody);
-	
-	      // [START multipart_example]
-	      String htmlBody = "qqqqqqqqqq"; // ...
-	      byte[] attachmentData = htmlBody.getBytes(); // ...
-	      Multipart mp = new MimeMultipart();
-	
-	      MimeBodyPart htmlPart = new MimeBodyPart();
-	      htmlPart.setContent(htmlBody, "text/html");
-	      mp.addBodyPart(htmlPart);
-	
-	      MimeBodyPart attachment = new MimeBodyPart();
-	      InputStream attachmentDataStream = new ByteArrayInputStream(attachmentData);
-	      attachment.setFileName("manual.txt");
-	      //attachment.setContent(attachmentDataStream, "application/pdf");
-	      attachment.setContent(attachmentDataStream, "application/txt");
-	      mp.addBodyPart(attachment);
-	
-	      msg.setContent(mp);
-	      // [END multipart_example]
-	
-	      Transport.send(msg);
-	
-	    } catch (Exception e) {
-	    	return e.toString(); 
-	    }
-	    return "Multipart email sent";
-	  }
 
 }
