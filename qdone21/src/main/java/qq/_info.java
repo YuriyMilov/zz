@@ -11,19 +11,34 @@ import java.nio.file.Paths;
 public class _info { 
 
 	public static void main(String[] args) throws Exception {
-//		String s = "https://www.google.com/alerts/feeds/04888279385366086103/14719186293862211996";
-	//	s = "https://api.foxsports.com/v1/rss";
+		String s = "", ss = "", qq = "";
+		int h = 2;
+		String u = "https://gamesnews.quicklydone.com/p/rss.html";
 		
-		//String s="https://sport.ddtor.com/p/rss.html";
+				qq = u.substring(u.indexOf("//") + 2, u.indexOf("."));
+				s = rss.rfu_utf(u);
+				int i = s.indexOf("---begin---<br />");
+
+				if (i > -1) {
+					s = s.substring(i);
+					i = s.indexOf("---end---");
+					s = s.substring(0, i);
+					s = s.replace("---begin---", "").replace("---end---", "").trim();
+				}
+				
+					for (String s2 : s.split("<br />")) 
+						if(s2.length()>5)
+					//	if (qq.contains("gamesnews"))
+					//		ss = ss + rss.rss_h(s2, h);
+					//	else					
+							ss = ss + rss.rss_h(s2, h);
+					
+				ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";
+	w2f("C:\\Users\\ym\\Desktop\\____OUT_qdone21_qq._info.main__.html", ss);
 		
-		String s= "https://trends.google.com/trends/trendingsearches/daily/rss";
-		s=rss.rss_gug(s);
-	w2f("C:\\Users\\ym\\Desktop\\____OUT_2__.html", s);
 		
-		
-		//f2f("C:\\Users\\ym\\Desktop\\___IN___.txt","C:\\Users\\ym\\Desktop\\____OUT___.html", 8);
-		
-		System.out.println("------------------ OK 2 ----------------------");
+	
+		System.out.println("------------------ OK  ----------------------");
 	}
 
 	public static String get_url(String s, int i) throws Exception {

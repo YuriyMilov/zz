@@ -8,9 +8,11 @@ import qq.rss;
 public class gug {
 
 	public static void main(String[] args) throws Exception {
-
+String s22="";
 		//String s = qq._info.rff("C:\\Users\\ym\\Desktop\\zzz.txt");
 		String s= "https://trends.google.com/trends/trendingsearches/daily/rss";
+		s = "https://trends.google.com/trends/trendingsearches/daily/rss?geo=CA";
+
 		s=rss.rfu_utf(s);
 
 		String sss[] = 	s.split("</");
@@ -20,7 +22,7 @@ public class gug {
 		System.out.println("****************************************************************");
 		String s11="<a href='"+sss[2].substring(1+sss[2].lastIndexOf(">"))+"'><b>"+sss[0].substring(1+sss[0].lastIndexOf(">"))+"</a></b><br/><i>"+sss[1].substring(1+sss[1].lastIndexOf(">"))+"</i><br/><br/>";
 		String[] ss = s.split("<item>");
-		int i = 0;
+		int i = 0, m=0;
 		int n = ss.length;
 		
 		for (String s2 : ss) {
@@ -31,24 +33,14 @@ public class gug {
 			if (i > 0 && i < n) {
 				int k = s2.indexOf("</item>");
 				String s3 = s2.substring(0, k);
-				int m = 0;
-			//	System.out.println("------------------------------->  "+s3.split("</").length );
+				//	System.out.println("------------------------------->  "+s3.split("</").length );
 					ss=s3.split("</");
 				for (String s4 : ss) {
-					
-					System.out.println("--- " + m++ + " --->" + Jsoup.parse("</"+s4).text() );
-					
-					
-					//s4="<"+s4;//.replace("\r\n", "qqq");
-					//System.out.println("*** " + m++ + " ***");
-					//s4=Jsoup.parse(s4).text().trim();
-				//	s4=s4.replace("qqq", "\r\n");
-					//System.out.println(s4);
-					//System.out.println("*********************************************");
-				}
+					System.out.println("*** " + m++ + " ***" +s4);
+			}
 				
 				//System.out.println("\r\n--------------------------------------------\r\n");
-				//System.out.println(s3);
+				System.out.println(s3);
 
 				String link1 = Jsoup.parse("</"+ss[3]).text();
 				String link2 = Jsoup.parse("</"+ss[9]).text();
@@ -62,15 +54,16 @@ public class gug {
 				String title2 = Jsoup.parse("</"+ss[7]).text();
 				String title3 = Jsoup.parse("</"+ss[12]).text();
 				String whatisthis=Jsoup.parse("</"+ss[5]).text();
-				String content1 = Jsoup.parse("</"+ss[2]).text();
+				Jsoup.parse("</"+ss[2]).text();
 				String content2 = Jsoup.parse("</"+ss[8]).text();
 				String content3 = Jsoup.parse("</"+ss[13]).text();
 				
-				String source1 = Jsoup.parse("</"+ss[6]).text();
-				String source2 = Jsoup.parse("</"+ss[10]).text();
+				Jsoup.parse("</"+ss[6]).text();
+				Jsoup.parse("</"+ss[10]).text();
 				String source3 = Jsoup.parse("</"+ss[15]).text();
 				
-				s11=s11  + "<table><tr><td>&nbsp;<img src='" + whatisthis + "'></td><td valign='top'><div style=\"color:#999999;font-family: Arial;font-size:12px;text-decoration:none;\">"
+				
+				s22 =   "<table><tr><td>&nbsp;<img src='" + whatisthis + "'></td><td valign='top'><div style=\"color:#999999;font-family: Arial;font-size:12px;text-decoration:none;\">"
 						+ "<a href='" + link1 + "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 						+ title1 + "</b></a><br /><i>" + date1  + "<br />" + traffic + "</i></div></td></tr></table>"
 								
@@ -83,12 +76,14 @@ public class gug {
 						+ title3 + "</b></a>&nbsp;</div><div style=\"color:#999999;font-family: Arial;font-size:12px;\"><i>"+ source3 +"</i></div>"
 						+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
 						+ content3 + "</div></td></tr></table><hr/>";
-			}
+				 System.out.println(i + "  -- >   " + s22.length() + "   <---");
+				
+				s11=s11 +s22;			}
 			i++;
 		}
 
-		_info.w2f("C:\\Users\\win10\\Desktop\\____OUT___.html",s11);
-		 System.out.println("--------------   OK  ---------------");
+		_info.w2f("C:\\Users\\ym\\Desktop\\____OUT___.html",s22);
+		 System.out.println("--------------  ALL -- > " + s11.length() + "   <---------------");
 
 	}
 
