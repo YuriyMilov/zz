@@ -8,7 +8,10 @@ import java.net.URLConnection;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -51,8 +54,17 @@ public class rss {
 			tt = tt.replace("RSS", "").replace("Google Alert - ", "G-alt ");
 			for (Object o : synd_entry) {
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
-				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			
+			//	LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				
+				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
+				
+			
+				
+						
 				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
+				
+				
 				System.out.println("-- Date -> " + d + " -->> " + bb);
 				if (bb) {
 					link = ((SyndEntryImpl) o).getLink();
@@ -72,8 +84,9 @@ public class rss {
 					}
 					if (content.length() > 1)
 						content = fit(content);
-					String tm = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-					String dt = tt + "    " + tm;
+					String dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT).format(localDateTime);
+					String dt = tt + "    " + dtm;
+					System.out.println(dtm);
 					ss = ss + "<table><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
 							+ dt + "</div></td></tr>" + "<tr><td></td>" + "<td valign='top'>" + "<div><a href='" + link
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
@@ -335,19 +348,15 @@ public class rss {
 			for (Object o : synd_entry) {
 	
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
-				
-				if(d==null)				
-				{
-	
-					
-				//break;
-				
-				}
+			
 
-				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				//LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				
+				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
+	
 				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
 	
-				System.out.println("-- Date -> " + d + " -->> " + bb);
+			//	System.out.println("-- Date -> " + d + " -->> " + bb);
 	
 				if (bb) {
 	
@@ -371,11 +380,11 @@ public class rss {
 					}
 					if (content.length() > 1)
 						content = fit(content);
+
+					String dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT).format(localDateTime);
+					String dt = tt + "    " + dtm;
 	
-					// localDateTime.format(DateTimeFormatter.ofPattern("MMM dd, HH:mm"));
-					String tm = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-					String dt = tt + "    " + tm;
-	
+					System.out.println(dtm);				
 					ss = ss + "<table><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
 							+ dt + "</div></td></tr>" + "<tr><td></td>" + "<td valign='top'>" + "<div><a href='" + link
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
@@ -405,8 +414,8 @@ public class rss {
 		for (Element img : doc.select("img")) {
 			if (img.attr("width").length() > 0)
 				try {
-					if (Integer.parseInt(img.attr("width")) > 640)
-						img.attr("width", "120");
+					if (Integer.parseInt(img.attr("width")) > 240)
+						img.attr("width", "240");
 				} catch (Exception e) {
 					w2a("Error kust.fit(IMG width)", img.attr("width") + " " + e.toString());
 				}
@@ -442,9 +451,14 @@ public class rss {
 	
 			for (Object o : synd_entry) {
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
-				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				
+		//		LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+					
+				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
+				
 				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
-				System.out.println("-- Date -> " + d + " -->> " + bb);
+			
+		//		System.out.println("-- Date -> " + d + " -->> " + bb +" " + DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT).format(localDateTime));
 				if (bb) {
 					link = ((SyndEntryImpl) o).getLink();
 					title = ((SyndEntryImpl) o).getTitle();
@@ -463,15 +477,16 @@ public class rss {
 					}
 					if (content.length() > 1)
 						content = fig(content);
-					String tm = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-					String dt = tt + "    " + tm;
-	
+					
+					String dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT).format(localDateTime.atZone(ZoneId.of("America/New_York")));
+					String dt = tt + "    " + dtm;
+					System.out.println(dtm);
 					ss = ss + "<table><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
-							+ dt + "</div></td></tr>" + "<tr><td></td>" + "<td valign='top'>" + "<div><a href='" + link
+							+ dt + "</div></td></tr><tr><td></td><td valign='top'><div><a href='" + link
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 							+ title + "</b></a>&nbsp;<br/><br /></div>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-							+ content + "<br /><br /></div></td></tr></table><hr/>";
+							+ content + "<br /><br /></div><hr/></td></tr></table>";
 				}
 			}
 		} catch (Exception e) {

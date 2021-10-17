@@ -12,9 +12,10 @@ public class _info {
 
 	public static void main(String[] args) throws Exception {
 		String s = "", ss = "", qq = "";
-		int h = 2;
+		int h = 8;
 		String u = "https://gamesnews.quicklydone.com/p/rss.html";
-		
+	//	u="https://ont.ddtor.com/p/rss.html";
+	//  u="https://poker.ddtor.com/p/rss.html";
 				qq = u.substring(u.indexOf("//") + 2, u.indexOf("."));
 				s = rss.rfu_utf(u);
 				int i = s.indexOf("---begin---<br />");
@@ -31,9 +32,9 @@ public class _info {
 					//	if (qq.contains("gamesnews"))
 					//		ss = ss + rss.rss_h(s2, h);
 					//	else					
-							ss = ss + rss.rss_h(s2, h);
+							ss = ss + rss.rss_gam(s2, h);
 					
-				ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";
+				//ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";
 	w2f("C:\\Users\\ym\\Desktop\\____OUT_qdone21_qq._info.main__.html", ss);
 		
 		

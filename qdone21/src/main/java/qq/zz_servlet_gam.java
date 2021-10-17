@@ -62,7 +62,7 @@ public class zz_servlet_gam extends HttpServlet {
 					for (String s2 : s.split("<br />"))
 						if (s2.length() > 5)
 							if (qq.contains("gamesnews"))
-								ss = ss + rss.rss_h(s2, h);
+								ss = ss + rss.rss_gam(s2, h);
 							else
 								ss = ss + rss.rss_h(s2, h);
 

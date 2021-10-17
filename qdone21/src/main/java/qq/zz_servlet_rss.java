@@ -29,13 +29,13 @@ public class zz_servlet_rss extends HttpServlet {
 			if (hs != null)
 				h = Integer.parseInt(hs);
 			if (u != null)
-				url = u;
+				url = u;  
 			if (to != null)
 				adr_to = to;
 			if (from != null)
 				adr_from = from;
 			s = rss.rss_all(url, h);			
-			if (s.length() > 222)
+			if (s.length() > 333)
 				rss.w2m("Kuka", adr_from, "", adr_to, rss.rus_date(), s);
 
 
