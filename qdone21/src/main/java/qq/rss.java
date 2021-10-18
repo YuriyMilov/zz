@@ -320,7 +320,7 @@ public class rss {
 	}
 
 	public static String w2ma(String subj, String s) {
-		s.replace("<hr/>", "qqq").replace("<br />", "qqq").replace("<table>", "qqq");
+		s = s.replace("<hr/>", "qqq").replace("<br />", "qqq").replace("<table>", "qqq");
 		s = Jsoup.parse(s).text();
 		s = s.replace("qqq", "\r\n");
 		if (s.length() > 5555)
@@ -334,6 +334,9 @@ public class rss {
 		int ii = -1;
 		try {		
 		//	s=s.replace("</item>","<pubDate>Sun, 10 Oct 2021 06:52:04 +0000</pubDate>\r\n</item>");
+			
+			s = rss.rfu_utf(s);
+			
 			SyndFeed feed = new SyndFeedInput().build(new StringReader(s));
 					
 			//SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
@@ -382,15 +385,15 @@ public class rss {
 						content = fit(content);
 
 					String dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT).format(localDateTime);
-					String dt = tt + "    " + dtm;
+				
 	
-					System.out.println(dtm);				
+				//	System.out.println(dtm);				
 					ss = ss + "<table><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
-							+ dt + "</div></td></tr>" + "<tr><td></td>" + "<td valign='top'>" + "<div><a href='" + link
+							+ dtm + "<br /></div></td></tr><tr><td></td><td valign='top'><div><a href='" + link
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
-							+ title + "</b></a>&nbsp;<br/><br /></div>"
+							+ title + "</b></a>&nbsp;<br /></div>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-							+ content + "<br /><br /></div></td></tr></table><hr/>";
+							+ content + "<br /></div></td></tr></table><hr/>";
 	
 					/*
 					 * <td valign='top'><a href='" + link +
@@ -405,7 +408,7 @@ public class rss {
 			w2a("RSS Error", s + "\r\n" + e.toString());
 		}
 	
-		return "<table><td valign='top'>" + ss + "</td></tr></table>";
+		return "<table><td valign='top'><b>" + tt+"</b><hr/>"+ss + "</td></tr></table>";
 	}
 
 	static public final String fit(String s) {

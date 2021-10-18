@@ -19,31 +19,35 @@ public class zz_servlet_rss extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		String s = "", adr_from = "ymilov@gmail.com", adr_to = "ymilov@gmail.com", url = "https://polit.ddtor.com/p/blog-page_21.html";
-		String u="-", hs="-", from="-", to="-";
-				int h = 2;
-			 u = request.getParameter("u");
-			 hs = request.getParameter("h");
-			 to = request.getParameter("to");
-			 from = request.getParameter("from");
-			if (hs != null)
-				h = Integer.parseInt(hs);
-			if (u != null)
-				url = u;  
-			if (to != null)
-				adr_to = to;
+
+		String xml = "https://www.anekdot.ru/rss/export_j.xml";
+		String adr_from = "ymilov@gmail.com";
+		int h = 24;
+
+		String u = request.getParameter("u");
+		String hs = request.getParameter("h");
+		String to = request.getParameter("to");
+		String from = request.getParameter("from");
+
+		if (hs != null)
+			h = Integer.parseInt(hs);
+		if (u != null)
+			xml = u;
+
+		String s = rss.rss_s(xml, h);
+
+		if (to == null)
+			rss.w2ma("RSS-w2ma", s);
+		else {
 			if (from != null)
 				adr_from = from;
-			s = rss.rss_all(url, h);			
 			if (s.length() > 333)
-				rss.w2m("Kuka", adr_from, "", adr_to, rss.rus_date(), s);
+				rss.w2m("Admin RSS", adr_from, "", to, rss.rus_date(), s);
+		}
 
-
-			PrintWriter wr = response.getWriter();
-			wr.print(s);
-			wr.close();
+		PrintWriter wr = response.getWriter();
+		wr.print(s);
+		wr.close();
 	}
-
-	
 
 }

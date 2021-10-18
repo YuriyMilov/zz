@@ -8,37 +8,15 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class _info { 
+public class _info {
 
 	public static void main(String[] args) throws Exception {
-		String s = "", ss = "", qq = "";
-		int h = 8;
-		String u = "https://gamesnews.quicklydone.com/p/rss.html";
-	//	u="https://ont.ddtor.com/p/rss.html";
-	//  u="https://poker.ddtor.com/p/rss.html";
-				qq = u.substring(u.indexOf("//") + 2, u.indexOf("."));
-				s = rss.rfu_utf(u);
-				int i = s.indexOf("---begin---<br />");
-
-				if (i > -1) {
-					s = s.substring(i);
-					i = s.indexOf("---end---");
-					s = s.substring(0, i);
-					s = s.replace("---begin---", "").replace("---end---", "").trim();
-				}
-				
-					for (String s2 : s.split("<br />")) 
-						if(s2.length()>5)
-					//	if (qq.contains("gamesnews"))
-					//		ss = ss + rss.rss_h(s2, h);
-					//	else					
-							ss = ss + rss.rss_gam(s2, h);
-					
-				//ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";
-	w2f("C:\\Users\\ym\\Desktop\\____OUT_qdone21_qq._info.main__.html", ss);
+		String s = "https://www.anekdot.ru/rss/export_j.xml";
+		s = rss.rss_s(s, 24);
 		
+		System.out.println(s);
 		
-	
+		w2f("C:\\Users\\ym\\Desktop\\___________!!!!! .html", s);
 		System.out.println("------------------ OK  ----------------------");
 	}
 
@@ -48,13 +26,12 @@ public class _info {
 	}
 
 	public static void f2f(String f1, String f2, int i) throws Exception {
-		String ss="";
-		for(String s2: Files.readAllLines(Paths.get(f1)))
-		{
+		String ss = "";
+		for (String s2 : Files.readAllLines(Paths.get(f1))) {
 			s2 = rss.rss_h(s2, i);
-			ss=ss+s2+"<br />";
+			ss = ss + s2 + "<br />";
 		}
-		w2f(f2,ss);		
+		w2f(f2, ss);
 	}
 
 	public static void get_feedspot(String s) throws Exception {
@@ -107,9 +84,9 @@ public class _info {
 		myWriter.write(s);
 		myWriter.close();
 	}
-	
-	public static String rfu_utf(String s) {
-		try {
+
+	public static String rfu_utf(String s)  throws Exception{
+
 			URL url = new URL(s);
 
 			URLConnection conn = url.openConnection();
@@ -123,10 +100,6 @@ public class _info {
 			br.close();
 			return s.toString();
 
-		} catch (Exception e) {
-			return e.toString();
-		}
 	}
-	
 
 }

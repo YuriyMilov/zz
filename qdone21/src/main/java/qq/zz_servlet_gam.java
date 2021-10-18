@@ -65,10 +65,12 @@ public class zz_servlet_gam extends HttpServlet {
 								ss = ss + rss.rss_gam(s2, h);
 							else
 								ss = ss + rss.rss_h(s2, h);
-
-					ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";
+					
+					if (ss.length() > 333) {
+					ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";					
 					ds.put_text("blog", qq, "content", new Text(ss));
 					rss.w2m("DS", from, "", to, rss.rus_date(), ss);
+					}
 				}
 			}
 		} catch (Exception e) {
