@@ -36,36 +36,25 @@ import com.rometools.rome.io.XmlReader;
 
 public class rss {
 
-	static String stu = "";
-	
 	static public final String rss_h(String s, int i) {
 
 		System.out.println("-- RSS -> " + s);
 
-		String ss = "", link = "", title = "", content = "", tt = "";
+		String ss = "", link = "", title = "", content = "", tt = "", dtm = "", dt = "";
 		int ii = -1;
 		try {
-
+			// w2ma("RSS_h", s);
 			SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
 			List<SyndEntry> synd_entry = feed.getEntries();
 			tt = feed.getTitle();
 			if (tt.contains("Google Alert - "))
 				i = i + 2;
-			tt = tt.replace("RSS", "").replace("Google Alert - ", "G-alt ");
+			tt = tt.replace("RSS", "").replace("Google Alert - ", "G-Alt ");
 			for (Object o : synd_entry) {
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
-			
-			//	LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-				
 				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
-				
-			
-				
-						
 				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
-				
-				
-				System.out.println("-- Date -> " + d + " -->> " + bb);
+
 				if (bb) {
 					link = ((SyndEntryImpl) o).getLink();
 					title = ((SyndEntryImpl) o).getTitle();
@@ -84,22 +73,26 @@ public class rss {
 					}
 					if (content.length() > 1)
 						content = fit(content);
-					String dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT).format(localDateTime);
-					String dt = tt + "    " + dtm;
-					System.out.println(dtm);
+					dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
+							.format(localDateTime);
+					dt = tt + "    " + dtm;
+
+					System.out.println("--- " + bb + "-----> " + dtm);
+
 					ss = ss + "<table><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
 							+ dt + "</div></td></tr>" + "<tr><td></td>" + "<td valign='top'>" + "<div><a href='" + link
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 							+ title + "</b></a>&nbsp;<br/><br /></div>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
 							+ content + "<br /><br /></div></td></tr></table><hr/>";
-				}
+				} else
+					System.out.println("--- " + bb + "-----> " + dtm);
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
-			w2a("RSS_h Error", stu + "\r\n" + s + "\r\n" + e.toString());
+			 System.out.println(e.toString());
+			// w2ma("RSS_h Error", e.toString());
 		}
-		return "<table><td valign='top'>" + ss + "</td></tr></table>";
+		return "<table><tr><td valign='top'>" + ss + "</td></tr></table>";
 	}
 
 	public static String rfu_utf(String s) {
@@ -172,7 +165,7 @@ public class rss {
 	public static String rss_all(String s, int h) {
 
 		String ss = "";
-		stu=s;
+
 		s = rfu_utf(s);
 
 		int i = s.indexOf("---begin---<br />");
@@ -264,55 +257,54 @@ public class rss {
 		int n = ss.length;
 		for (String s2 : ss) {
 			try {
-			if (i > 0 && i < n) {
-				int k = s2.indexOf("</item>");
-				String s3 = s2.substring(0, k);
-				ss = s3.split("</");
+				if (i > 0 && i < n) {
+					int k = s2.indexOf("</item>");
+					String s3 = s2.substring(0, k);
+					ss = s3.split("</");
 
-				//	int m = 0;
-			//	for (String s4 : ss) {
-			//		System.out.println("--- " + m++ + " --->" + Jsoup.parse("</" + s4).text());
-			//  }
-				
-				String link1 = Jsoup.parse("</" + ss[3]).text();
-				String link2 = Jsoup.parse("</" + ss[9]).text();
-				String link3 = Jsoup.parse("</" + ss[14]).text();
-				String date1 = Jsoup.parse("</" + ss[4]).text();
-				String traffic = Jsoup.parse("</" + ss[1]).text();
-				String title1 = Jsoup.parse("</" + ss[0]).text();
-				String title2 = Jsoup.parse("</" + ss[7]).text();
-				String title3 = Jsoup.parse("</" + ss[12]).text();
-				String whatisthis = Jsoup.parse("</" + ss[5]).text();
-				String content1 = Jsoup.parse("</" + ss[2]).text();
-				String content2 = Jsoup.parse("</" + ss[8]).text();
-				String content3 = Jsoup.parse("</" + ss[13]).text();
-				String source1 = Jsoup.parse("</" + ss[6]).text();
-				String source2 = Jsoup.parse("</" + ss[10]).text();
-				String source3 = Jsoup.parse("</" + ss[15]).text();
-				s11 = s11 + "<table><tr><td>&nbsp;<img src='" + whatisthis
-						+ "'></td><td valign='top'><div style=\"color:#999999;font-family: Arial;font-size:12px;text-decoration:none;\">"
-						+ "<a href='" + link1
-						+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
-						+ title1 + "</b></a><br /><i>" + date1 + "<br />" + traffic + "<br />" + source1 + "<br />"
-						+ content1 + "</i></div></td></tr></table>"
+					// int m = 0;
+					// for (String s4 : ss) {
+					// System.out.println("--- " + m++ + " --->" + Jsoup.parse("</" + s4).text());
+					// }
 
-						+ "<table><tr><td></td><td valign='top'><div><a href='" + link2
-						+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
-						+ title2
-						+ "</b></a>&nbsp;</div><div style=\"color:#999999;font-family: Arial;font-size:12px;\"><i>"
-						+ source2
-						+ "</i><div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-						+ content2 + "</div></td></tr><tr><td></td><td valign='top'><div><a href='" + link3
-						+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
-						+ title3
-						+ "</b></a>&nbsp;</div><div style=\"color:#999999;font-family: Arial;font-size:12px;\"><i>"
-						+ source3 + "</i></div>"
-						+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-						+ content3 + "</div></td></tr></table><hr/>";
-			}
-		}
-			catch(Exception e){
-				System.out.println("-------------------------------> "+e.toString());
+					String link1 = Jsoup.parse("</" + ss[3]).text();
+					String link2 = Jsoup.parse("</" + ss[9]).text();
+					String link3 = Jsoup.parse("</" + ss[14]).text();
+					String date1 = Jsoup.parse("</" + ss[4]).text();
+					String traffic = Jsoup.parse("</" + ss[1]).text();
+					String title1 = Jsoup.parse("</" + ss[0]).text();
+					String title2 = Jsoup.parse("</" + ss[7]).text();
+					String title3 = Jsoup.parse("</" + ss[12]).text();
+					String whatisthis = Jsoup.parse("</" + ss[5]).text();
+					String content1 = Jsoup.parse("</" + ss[2]).text();
+					String content2 = Jsoup.parse("</" + ss[8]).text();
+					String content3 = Jsoup.parse("</" + ss[13]).text();
+					String source1 = Jsoup.parse("</" + ss[6]).text();
+					String source2 = Jsoup.parse("</" + ss[10]).text();
+					String source3 = Jsoup.parse("</" + ss[15]).text();
+					s11 = s11 + "<table><tr><td>&nbsp;<img src='" + whatisthis
+							+ "'></td><td valign='top'><div style=\"color:#999999;font-family: Arial;font-size:12px;text-decoration:none;\">"
+							+ "<a href='" + link1
+							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
+							+ title1 + "</b></a><br /><i>" + date1 + "<br />" + traffic + "<br />" + source1 + "<br />"
+							+ content1 + "</i></div></td></tr></table>"
+
+							+ "<table><tr><td></td><td valign='top'><div><a href='" + link2
+							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
+							+ title2
+							+ "</b></a>&nbsp;</div><div style=\"color:#999999;font-family: Arial;font-size:12px;\"><i>"
+							+ source2
+							+ "</i><div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ content2 + "</div></td></tr><tr><td></td><td valign='top'><div><a href='" + link3
+							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
+							+ title3
+							+ "</b></a>&nbsp;</div><div style=\"color:#999999;font-family: Arial;font-size:12px;\"><i>"
+							+ source3 + "</i></div>"
+							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ content3 + "</div></td></tr></table><hr/>";
+				}
+			} catch (Exception e) {
+				System.out.println("-------------------------------> " + e.toString());
 			}
 			i++;
 		}
@@ -329,47 +321,99 @@ public class rss {
 		return s;
 	}
 
+	public static String[] frmt(String s, String begin, String end) throws Exception {
+
+		s = s.replace("<div>", "_qqq_").replace("</div>", "_qqq_").replace("<br />", "_qqq_").replace("&nbsp;", " ")
+				.replace("&amp;", "&");
+		s = Jsoup.parse(s).text();
+
+		int i = s.indexOf(begin);
+		s = s.substring(i);
+		i = s.indexOf(end);
+		s = s.substring(0, i);
+
+		String sss = "";
+		String[] ss = s.split("_qqq_");
+		for (String sa : ss)
+			if (sa.contains("http"))
+				sss = sss + sa.trim() + "_qqq_";
+		ss = sss.split("_qqq_");
+		return ss;
+	}
+
+	public static String[] frmt_ddtr(String s, String blog) throws Exception {
+		//String sf = "C:\\Users\\ym\\Desktop\\_" + LocalDateTime.now().hashCode() + "_.txt";
+		//_info.w2f(sf, s);
+		//System.out.println("file -----------> " + sf);
+		
+		
+
+		int i = s.indexOf(blog + "-rss-begin");
+		s = s.substring(i);
+		i = s.indexOf(blog + "-rss-end");
+		s = s.substring(0, i);
+		
+		String ps = "_qqq_";
+		s = s.replace("<div", ps + "<div");
+		s = s.replace("<p", ps + "<p");
+		s = s.replace("<br", ps + "<br");
+		s = s.replace("<span", ps + "<span");
+		
+		
+		s = Jsoup.parse(s).text();
+		
+		String[] ss = s.split(ps);
+		s = "";
+		for (String sa : ss) {
+			sa = sa.trim();
+			if (sa.indexOf("http") == 0)
+				s = s + sa.trim() + ps;
+		}
+		ss = s.split(ps);
+		return ss;
+	}
+
 	static public final String rss_s(String s, int i) {
 		String ss = "", link = "", title = "", content = "", tt = "";
 		int ii = -1;
-		try {		
-		//	s=s.replace("</item>","<pubDate>Sun, 10 Oct 2021 06:52:04 +0000</pubDate>\r\n</item>");
-			
+		try {
+			// s=s.replace("</item>","<pubDate>Sun, 10 Oct 2021 06:52:04
+			// +0000</pubDate>\r\n</item>");
+
 			s = rss.rfu_utf(s);
-			
+
 			SyndFeed feed = new SyndFeedInput().build(new StringReader(s));
-					
-			//SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
+
+			// SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
 			List<SyndEntry> synd_entry = feed.getEntries();
 			tt = feed.getTitle();
-	
+
 			if (tt.contains("Google Alert - "))
 				i = i + 2;
-	
-			tt = tt.replace("RSS", "").replace("Google Alert - ", "G-alt ");
-	
-			for (Object o : synd_entry) {
-	
-				Date d = ((SyndEntryImpl) o).getPublishedDate();
-			
 
-				//LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-				
+			tt = tt.replace("RSS", "").replace("Google Alert - ", "G-alt ");
+
+			for (Object o : synd_entry) {
+
+				Date d = ((SyndEntryImpl) o).getPublishedDate();
+
+				// LocalDateTime localDateTime =
+				// d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
 				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
-	
+
 				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
-	
-			//	System.out.println("-- Date -> " + d + " -->> " + bb);
-	
+
+				// System.out.println("-- Date -> " + d + " -->> " + bb);
+
 				if (bb) {
-	
+
 					link = ((SyndEntryImpl) o).getLink();
 					title = ((SyndEntryImpl) o).getTitle();
 					SyndContent synd_content = ((SyndEntryImpl) o).getDescription();
-	
+
 					List<SyndContent> sclist = null;
-	
-					
+
 					if (synd_content != null)
 						content = ((SyndEntryImpl) o).getDescription().getValue();
 					else {
@@ -384,35 +428,35 @@ public class rss {
 					if (content.length() > 1)
 						content = fit(content);
 
-					String dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT).format(localDateTime);
-				
-	
-				//	System.out.println(dtm);				
+					String dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
+							.format(localDateTime);
+
+					// System.out.println(dtm);
 					ss = ss + "<table><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
 							+ dtm + "<br /></div></td></tr><tr><td></td><td valign='top'><div><a href='" + link
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 							+ title + "</b></a>&nbsp;<br /></div>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
 							+ content + "<br /></div></td></tr></table><hr/>";
-	
+
 					/*
 					 * <td valign='top'><a href='" + link +
 					 * "' target='_blank'><img src='http://3.bp.blogspot.com/-UEeXrZLtJCM/Xe5qS93LHBI/AAAAAAABSr4/ei1k8POBBBom8OIZmbbTRLQZVZEUKEviACK4BGAYYCw/s770/rss2.png' /></a></td>"
 					 * + "
 					 */
-	
+
 				}
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			w2a("RSS Error", s + "\r\n" + e.toString());
 		}
-	
-		return "<table><td valign='top'><b>" + tt+"</b><hr/>"+ss + "</td></tr></table>";
+
+		return "<table><td valign='top'><b>" + tt + "</b><hr/>" + ss + "</td></tr></table>";
 	}
 
 	static public final String fit(String s) {
-	
+
 		Document doc = Jsoup.parse(s);
 		for (Element img : doc.select("img")) {
 			if (img.attr("width").length() > 0)
@@ -424,7 +468,7 @@ public class rss {
 				}
 			else {
 				img.attr("width", "240");
-	
+
 			}
 			img.removeAttr("height");
 		}
@@ -436,32 +480,35 @@ public class rss {
 		for (Element div : doc.select("div")) {
 			div.removeAttr("style");
 		}
-	
+
 		return doc.toString();
 	}
 
 	static public final String rss_gam(String s, int i) {
-	
+
 		System.out.println("-- RSS -> " + s);
-	
+
 		String ss = "", link = "", title = "", content = "", tt = "";
 		int ii = -1;
 		try {
-	
+
 			SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
 			List<SyndEntry> synd_entry = feed.getEntries();
 			tt = feed.getTitle();
-	
+
 			for (Object o : synd_entry) {
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
-				
-		//		LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-					
+
+				// LocalDateTime localDateTime =
+				// d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
 				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
-				
+
 				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
-			
-		//		System.out.println("-- Date -> " + d + " -->> " + bb +" " + DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT).format(localDateTime));
+
+				// System.out.println("-- Date -> " + d + " -->> " + bb +" " +
+				// DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL,
+				// FormatStyle.SHORT).format(localDateTime));
 				if (bb) {
 					link = ((SyndEntryImpl) o).getLink();
 					title = ((SyndEntryImpl) o).getTitle();
@@ -480,8 +527,9 @@ public class rss {
 					}
 					if (content.length() > 1)
 						content = fig(content);
-					
-					String dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT).format(localDateTime.atZone(ZoneId.of("America/New_York")));
+
+					String dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
+							.format(localDateTime.atZone(ZoneId.of("America/New_York")));
 					String dt = tt + "    " + dtm;
 					System.out.println(dtm);
 					ss = ss + "<table><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
@@ -496,12 +544,12 @@ public class rss {
 			System.out.println(e.toString());
 			rss.w2a("RSS_h Error", "rss.zz_servlet_gam\r\n" + s + "\r\n" + e.toString());
 		}
-	
+
 		return "<table><td valign='top'>" + ss + "</td></tr></table>";
 	}
 
 	static public final String fig(String s) {
-	
+
 		Document doc = Jsoup.parse(s);
 		for (Element img : doc.select("img")) {
 			if (img.attr("width").length() > 0)
@@ -513,7 +561,7 @@ public class rss {
 				}
 			else {
 				img.attr("width", "640");
-	
+
 			}
 			img.removeAttr("height");
 		}
@@ -525,7 +573,7 @@ public class rss {
 		for (Element div : doc.select("div")) {
 			div.removeAttr("style");
 		}
-	
+
 		return doc.toString();
 	}
 

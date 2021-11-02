@@ -1,5 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,26 +17,21 @@ import qq.rss;
     urlPatterns = {"/hello"}
 )
 public class HelloAppEngine extends HttpServlet {
+  
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) 
-      throws IOException {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("UTF-8");
+		String s = "привет";
 
-    response.setContentType("text/plain");
-    response.setCharacterEncoding("UTF-8");
-    
-    qq.tr1 aa = new qq.tr1();
-    aa.i=0;
-    new Thread(aa).start();
-    PrintWriter w = response.getWriter();
-    try {
-		Thread.sleep(5555);
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		
+		//new Thread(new qq.trd(new String[]{"11","22"},1)).start();
+		
+
+PrintWriter w = response.getWriter();
+		w.write(s);
+		w.close();
+
 	}
-    w.print(aa.i);
-    new Thread(aa).start();
-
-  }
 }

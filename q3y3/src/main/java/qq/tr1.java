@@ -1,22 +1,22 @@
 package qq;
 
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServletResponse;
-
 public class tr1 implements Runnable {
-	public static int i = 0;
-	public static HttpServletResponse resp;
+
+	public int i = 0;
 	
 	public void run(){
+		rss.w2ma("2qqq","11111111111");
+		/*
 		try {
-		while (i++ < 100) {
+		while (i++ < 10) {
+			
 			System.out.println(i);
 			Thread.sleep(555);
 		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 }

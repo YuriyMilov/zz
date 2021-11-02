@@ -25,8 +25,8 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Text;
 
-@WebServlet(name = "ds", urlPatterns = { "/ds" })
-public class ds extends HttpServlet {
+@WebServlet(name = "dds", urlPatterns = { "/dds" })
+public class dds extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	String html = "<a href='/'>_root_</a><br><br><a href='_ah/admin'>_ah/admin</a><br><br><form action=/ds method='post'>"
@@ -39,105 +39,43 @@ public class ds extends HttpServlet {
 
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		
-		String s = new String(html).replace("qqq", get_text("ddtor", "all", "text"));
-		s = s.replace("hhh", String.valueOf(get_int("ddtor", "all", "h")));
-		s = s.replace("mmm", String.valueOf(get_int("ddtor", "all", "m")));		
-	
-	
-		
-	/*	if (request.getQueryString() == null)
-		{	s = get_text("ddtor", "all", "text");
-		s = new String(html).replace("qqq", s);
-		s = s.replace("hhh", String.valueOf(get_int("ddtor", "all", "h")));
-		s = s.replace("mmm", String.valueOf(get_int("ddtor", "all", "m")));		
-	}
-*/	
 
-			
-	
+		String key = request.getQueryString();
+		if (key == null)
+			key = "all"; 
 
-	
-s= s+"<br>---------------------<br>"+get_list("ddtor");
-		
+		String[] ss = get_text("ddtor", key, "rss").split("https://");
+		int h = Integer.parseInt(String.valueOf(get_int("ddtor", key, "h")));
+		int m = Integer.parseInt(String.valueOf(get_int("ddtor", key, "m")));
+		String from = s_get("ddtor", key, "from");
+		String to = s_get("ddtor", key, "to");
 
+		boolean bb = time2do(key, m);
+		String s = "";
 
-		PrintWriter w = response.getWriter();
-		w.print(s);
-		w.close();
-	}
-	
-	private String get_list(String query) {
-		  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-		  Query q = new Query(query);
-		  PreparedQuery pq = datastore.prepare(q);
-		  
-		
-		  List<Entity> ee =pq.asList(FetchOptions.Builder.withLimit(5));		  
-		  String s="";
-		  
-		  //if(ee.size()>0)
-		 //s=ee.get(0).getProperties().toString();	
-		 
-		 // s= ee.get(0).getProperties().toString() + " ZZZZZZZZZZZZZZZZZZ ";
-	
-		  int i=0;	
-		  for (Object e2: ee)
-			  {
-			  s=s+" "+ee.get(i).getKey().getName().toString() +" m="+ ee.get(i).getProperty("m").toString() +"<br>";
-			  i++;
-			  }
-		  
-		  
-		  return s; 
-		}
-
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		// String s = "qq", table = "qq", name = "qq", file = "qq";
-		String table = "ddtor";//request.getParameter("ddtor");
-		String key = request.getParameter("key");
-		String file = "text";//request.getParameter("text");
-		String h = request.getParameter("h");
-		String m = request.getParameter("m");
-		String s = request.getParameter("s");
-		try {
-			if (table != null && key != null && file != null && s != null) {
-				if (s.trim().length() > 0) {
-					put_txt_hm(table, key, file, new Text(s),"h",Integer.parseInt(h),"m",Integer.parseInt(m));
-					s = get_text(table, key, file);
-					s = new String(html).replace("qqq", s);
-					s = s.replace("hhh", String.valueOf(get_int("ddtor", "all", "h")));
-					s = s.replace("mmm", String.valueOf(get_int("ddtor", "all", "m")));			
-				} else {
-					s = get_text(table, key, file);
-					s = new String(html).replace("qqq", s);
-					s = s.replace("hhh", String.valueOf(get_int("ddtor", "all", "h")));
-					s = s.replace("mmm", String.valueOf(get_int("ddtor", "all", "m")));			
+		if (bb) {
+			for (String s2 : ss)
+				if (s2.length() > 1) {
+					s = s + rss.rss_h("https://" + s2, 24);
 				}
-			} else
-				doGet(request, response);
-		} catch (Exception e) {
-			s = "INIT done - try again";
-			put_txt_hm(table, key, file, new Text(s),"h",48,"m",0);
-			s = new String(html).replace("qqq", s);
-		}
 
-		s= s+"<br>---------------------<br>"+get_list("ddtor");
+			dds.page_update(key, new Text(s), new Date());
+			rss.w2ma(key, " ss.length=" + ss.length + " bb=" + bb + " h=" + h + " m=" + m + " from=" + from + " to="
+					+ to + " \r\n" + s);
+			rss.w2m("DS", from, "", to, rss.rus_date(), s);
+		}
+		// new Thread(new qq.trd(ss,8)).start();
 		PrintWriter w = response.getWriter();
-		w.print(s);
+		w.print(new Date().toInstant().toString() + " key = " + key + " time2do = " + bb + "<br />" + s);
 		w.close();
 	}
 
-	public static void put_text(String table, String id, String field, Text txt) {
+	public static void page_update(String id, Text txt, Date d) {
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-
-		Entity zzz = new Entity(table, id);
-		zzz.setProperty(field, txt);
+		Entity zzz = new Entity("pages", id);
+		zzz.setProperty("html", txt);
+		zzz.setProperty("last_update", d);
 		ds.put(zzz);
 	}
 
@@ -162,7 +100,9 @@ s= s+"<br>---------------------<br>"+get_list("ddtor");
 		zzz.setProperty(field2, value2);
 		DatastoreServiceFactory.getDatastoreService().put(zzz);
 	}
-	public static void put_txt_hm(String table, String id, String text_field, Text text_value, String h, int h_value, String m, int m_value) {
+
+	public static void put_txt_hmqqq(String table, String id, String text_field, Text text_value, String h, int h_value,
+			String m, int m_value) {
 
 		Entity zzz = new Entity(table, id);
 		zzz.setProperty(text_field, text_value);
@@ -192,7 +132,7 @@ s= s+"<br>---------------------<br>"+get_list("ddtor");
 		}
 		return d;
 	}
-	
+
 	public static Long get_int(String table, String id, String field) {
 
 		Long i = (long) 0;

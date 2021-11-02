@@ -7,17 +7,30 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import org.jsoup.Jsoup;
+
+import com.google.appengine.api.datastore.Text;
 
 public class _info {
 
 	public static void main(String[] args) throws Exception {
-		String s = "https://www.anekdot.ru/rss/export_j.xml";
-		s = rss.rss_s(s, 24);
+		String s = "https://torontosun.com/feed";
+		System.out.println("-------- START ---------> " + s);
+
+		s=rff("C:\\Users\\ym\\Desktop\\11.txt");
 		
-		System.out.println(s);
+		String[]ss=s.split("\r\n");
+		for (String s2:ss)
+		{
+			System.out.println(rss.rss_h(s2, 24));	
+		}
 		
-		w2f("C:\\Users\\ym\\Desktop\\___________!!!!! .html", s);
-		System.out.println("------------------ OK  ----------------------");
+		System.out.println("============== FINISH ===================");
+		
+		System.exit(0);
 	}
 
 	public static String get_url(String s, int i) throws Exception {
@@ -85,20 +98,20 @@ public class _info {
 		myWriter.close();
 	}
 
-	public static String rfu_utf(String s)  throws Exception{
+	public static String rfu_utf(String s) throws Exception {
 
-			URL url = new URL(s);
+		URL url = new URL(s);
 
-			URLConnection conn = url.openConnection();
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf8"));
-			s = "";
-			String thisLine = "";
-			while ((thisLine = br.readLine()) != null) { // while loop begins
-															// here
-				s = s + thisLine + "\r\n";
-			}
-			br.close();
-			return s.toString();
+		URLConnection conn = url.openConnection();
+		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf8"));
+		s = "";
+		String thisLine = "";
+		while ((thisLine = br.readLine()) != null) { // while loop begins
+														// here
+			s = s + thisLine + "\r\n";
+		}
+		br.close();
+		return s.toString();
 
 	}
 
