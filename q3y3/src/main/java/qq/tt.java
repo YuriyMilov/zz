@@ -32,7 +32,7 @@ public class tt extends HttpServlet {
 		int h = 8, m = 0;
 		try {
 			if (!blog.contains("="))
-				ss = ds.get_text("blog", blog, "content");
+				ss = ds_old.get_text("blog", blog, "content");
 			else {
 				from = request.getParameter("from");
 				if (from == null)
@@ -58,7 +58,7 @@ public class tt extends HttpServlet {
 				else
 					m = h * 60;
 
-				boolean bb = ds.time2do(blog, m);
+				boolean bb = ds_old.time2do(blog, m);
 				System.out.println("---------- bb ------------>>   "+bb);
 				if (bb) {
 					System.out.println("-------- Start  reading -->  "+u);
@@ -82,7 +82,7 @@ public class tt extends HttpServlet {
 					
 				//	if (ss.length() > 333) {
 						ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";
-						ds.put_text("blog", blog, "content", new Text(ss));
+						ds_old.put_text("blog", blog, "content", new Text(ss));
 						rss.w2ma(blog + " tt OK", ss);
 						rss.w2m("DS", from, "", to, rss.rus_date(), ss);
 				//	} else

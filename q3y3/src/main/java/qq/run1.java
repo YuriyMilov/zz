@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "qq.run", urlPatterns = { "/run" })
-public class run extends HttpServlet {
+@WebServlet(name = "qq.run1", urlPatterns = { "/run1" })
+public class run1 extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html");

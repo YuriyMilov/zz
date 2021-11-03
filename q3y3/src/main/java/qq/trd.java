@@ -21,7 +21,7 @@ public class trd implements Runnable {
 		//		s = s + rss.rss_h(s2, h);
 		//	}
 			
-			ds.put_text("pages", "ont", "html", new Text(s));
+			ds_old.put_text("pages", "ont", "html", new Text(s));
 			System.out.println("-------------------FIN---------------------");
 		} catch (Exception e) {
 			e.printStackTrace();

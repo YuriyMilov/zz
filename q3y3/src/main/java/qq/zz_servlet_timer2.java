@@ -62,7 +62,7 @@ public class zz_servlet_timer2 extends HttpServlet {
 						m = Integer.parseInt(s);
 
 					
-					boolean bb = ds.time2do(qq, m);
+					boolean bb = ds_old.time2do(qq, m);
 					//ss=String.valueOf(bb)+ "  sssssssssssssssssssss";
 					System.out.println("----------------------->         "+ bb);
 					if (bb) {
@@ -86,7 +86,7 @@ public class zz_servlet_timer2 extends HttpServlet {
 
 						//if (ss.length() > 333) {
 							ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";
-							ds.put_text("blog", qq, "content", new Text(ss));
+							ds_old.put_text("blog", qq, "content", new Text(ss));
 						//	rss.w2m("DS", from, "", to, rss.rus_date(), ss);
 						//}
 

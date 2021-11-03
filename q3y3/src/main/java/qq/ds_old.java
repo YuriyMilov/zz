@@ -26,7 +26,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Text;
 
 @WebServlet(name = "ds", urlPatterns = { "/ds" })
-public class ds extends HttpServlet {
+public class ds_old extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	String html = "<a href='/'>_root_</a><br><br><a href='_ah/admin'>_ah/admin</a><br><br><form action=/ds method='post'>"
@@ -67,7 +67,7 @@ s= s+"<br>---------------------<br>"+get_list("ddtor");
 		w.close();
 	}
 	
-	private String get_list(String query) {
+	public String get_list(String query) {
 		  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 		  Query q = new Query(query);

@@ -25,24 +25,23 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Text;
 
-@WebServlet(name = "dds", urlPatterns = { "/dds" })
-public class dds extends HttpServlet {
+@WebServlet(name = "servlet_dds", urlPatterns = { "/dds" })
+public class servlet_dds extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	String html = "<a href='/'>_root_</a><br><br><a href='_ah/admin'>_ah/admin</a><br><br><form action=/ds method='post'>"
-			+ "blog: <input type=text name='key' value='all'> "
-			+ "h = <input type=text name='h' value='hhh'> m = <input type=text name='m' value='mmm'><br><br>"
-			+ "<textarea name=s rows=11 cols=80>qqq</textarea><br><br><input type=submit value='update' /></form> ";
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-
+		
+		
 		String key = request.getQueryString();
 		if (key == null)
 			key = "all"; 
+		
+		
 
 		String[] ss = get_text("ddtor", key, "rss").split("https://");
 		int h = Integer.parseInt(String.valueOf(get_int("ddtor", key, "h")));
@@ -56,17 +55,29 @@ public class dds extends HttpServlet {
 		if (bb) {
 			for (String s2 : ss)
 				if (s2.length() > 1) {
-					s = s + rss.rss_h("https://" + s2, 24);
+					if(s2.indexOf("trends.google.com")==0)
+						s = s + rss.rss_gug("https://" + s2);
+					else						
+						s = s + rss.rss_h("https://" + s2, h);
 				}
 
-			dds.page_update(key, new Text(s), new Date());
-			rss.w2ma(key, " ss.length=" + ss.length + " bb=" + bb + " h=" + h + " m=" + m + " from=" + from + " to="
-					+ to + " \r\n" + s);
+			servlet_dds.page_update(key, new Text(s), new Date());
+			rss.w2ma(key, s);
+	//		rss.w2ma(key, " ss.length=" + ss.length + " bb=" + bb + " h=" + h + " m=" + m + " from=" + from + " to=" + to + " " + s);
+			
+			s="<html><body>"+s+"</body></html>";
 			rss.w2m("DS", from, "", to, rss.rus_date(), s);
 		}
-		// new Thread(new qq.trd(ss,8)).start();
+		
+		
+		List<String> kkk = rss.get_keys_of("ddtor");
+		String skk="";		
+		for(String sk: kkk)			
+			skk = skk+sk+"<br />";
+			
 		PrintWriter w = response.getWriter();
-		w.print(new Date().toInstant().toString() + " key = " + key + " time2do = " + bb + "<br />" + s);
+		w.print(
+				skk + "<br /> from=" + from + " to=" + to + " h=" + h + " m=" + m + " time2do=" + bb + "<br />----------------<br />" + s);
 		w.close();
 	}
 

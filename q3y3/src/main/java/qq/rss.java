@@ -12,6 +12,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -27,6 +28,17 @@ import javax.mail.internet.MimeUtility;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Text;
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndEntryImpl;
@@ -73,18 +85,23 @@ public class rss {
 					}
 					if (content.length() > 1)
 						content = fit(content);
+					
 					dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
 							.format(localDateTime);
 					dt = tt + "    " + dtm;
 
 					System.out.println("--- " + bb + "-----> " + dtm);
-
-					ss = ss + "<table><tr><td>&nbsp;</td><td valign='top'><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
-							+ dt + "</div></td></tr>" + "<tr><td></td>" + "<td valign='top'>" + "<div><a href='" + link
+					
+					ss = ss + "<div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
+							+ dt + "</div><div><a href='" + link
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 							+ title + "</b></a>&nbsp;<br/><br /></div>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-							+ content + "<br /><br /></div></td></tr></table><hr/>";
+							+ content + "<br /><br /></div><hr/>";
+							//+ content + "<br /><br /></div></td></tr></table><hr/>";
+					
+								
+					
 				} else
 					System.out.println("--- " + bb + "-----> " + dtm);
 			}
@@ -92,7 +109,7 @@ public class rss {
 			 System.out.println(e.toString());
 			// w2ma("RSS_h Error", e.toString());
 		}
-		return "<table><tr><td valign='top'>" + ss + "</td></tr></table>";
+		return ss;
 	}
 
 	public static String rfu_utf(String s) {
@@ -308,7 +325,7 @@ public class rss {
 			}
 			i++;
 		}
-		return "<table><td valign='top'>" + s11 + "</td></tr></table>";
+		return s11;
 	}
 
 	public static String w2ma(String subj, String s) {
@@ -452,7 +469,7 @@ public class rss {
 			w2a("RSS Error", s + "\r\n" + e.toString());
 		}
 
-		return "<table><td valign='top'><b>" + tt + "</b><hr/>" + ss + "</td></tr></table>";
+		return "<table><tr><td valign='top'><b>" + tt + "</b><hr/>" + ss + "</td></tr></table>";
 	}
 
 	static public final String fit(String s) {
@@ -545,7 +562,7 @@ public class rss {
 			rss.w2a("RSS_h Error", "rss.zz_servlet_gam\r\n" + s + "\r\n" + e.toString());
 		}
 
-		return "<table><td valign='top'>" + ss + "</td></tr></table>";
+		return "<table><tr><td valign='top'>" + ss + "</td></tr></table>";
 	}
 
 	static public final String fig(String s) {
@@ -575,6 +592,169 @@ public class rss {
 		}
 
 		return doc.toString();
+	}
+	
+	public static List<String> get_keys_of(String kind) {
+		  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		  Query q = new Query(kind);
+		  PreparedQuery pq = datastore.prepare(q);
+		  List<Entity> eee =pq.asList(FetchOptions.Builder.withDefaults());		  //.withLimit(5)
+		
+		  //String s="";
+		 // for (Entity e: eee)
+		//	  s=s+ e.getKey().getName() +"<br />";
+		 // return s; 
+		  
+		  List<String> result = new ArrayList<String>();
+		  for (Entity entity : eee) {
+		    //if (!entity.getKey().getName().startsWith("_"))
+		      result.add(entity.getKey().getName());
+		  }
+		  return result;
+		}
+
+	public static Date get_date(String table, String id, String field) {
+	
+		String s = "";
+		Date d = null;
+		Key kk = KeyFactory.createKey(table, id);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		try {
+			d = (Date) datastore.get(kk).getProperties().get(field);
+		} catch (EntityNotFoundException e) {
+			s = e.toString();
+			rss.w2a("error", "s_get('...') " + s);
+		}
+		return d;
+	}
+
+	public static Long get_int(String table, String id, String field) {
+	
+		Long i = (long) 0;
+	
+		Key kk = KeyFactory.createKey(table, id);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		try {
+			i = (Long) datastore.get(kk).getProperties().get(field);
+		} catch (EntityNotFoundException e) {
+			rss.w2a("error", e.toString());
+		}
+		return i;
+	}
+
+	public static String get_text(String table, String id, String field) {
+	
+		String s = "";
+		Key kk = KeyFactory.createKey(table, id);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		try {
+			Text txt = (Text) datastore.get(kk).getProperties().get(field);
+			s = txt.getValue();
+		} catch (EntityNotFoundException e) {
+			s = e.toString();
+			rss.w2a("error", "s_get('...') " + s);
+		}
+		return s;
+	}
+
+	public static void page_update(String id, Text txt, Date d) {
+	
+		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+		Entity zzz = new Entity("pages", id);
+		zzz.setProperty("html", txt);
+		zzz.setProperty("last_update", d);
+		ds.put(zzz);
+	}
+
+	public static void put_text_date(String table, String id, String field1, Text txt, String field2, Date d) {
+	
+		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+	
+		Entity zzz = new Entity(table, id);
+		zzz.setProperty(field1, txt);
+		zzz.setProperty(field2, d);
+		ds.put(zzz);
+	}
+
+	public static void put_txt_hmqqq(String table, String id, String text_field, Text text_value, String h, int h_value,
+			String m, int m_value) {
+	
+		Entity zzz = new Entity(table, id);
+		zzz.setProperty(text_field, text_value);
+		zzz.setProperty(h, h_value);
+		zzz.setProperty(m, m_value);
+		DatastoreServiceFactory.getDatastoreService().put(zzz);
+	}
+
+	public static String s_get(String table, String id, String field) {
+	
+		String s = "";
+		Key kk = KeyFactory.createKey(table, id);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		try {
+			s = datastore.get(kk).getProperties().get(field).toString();
+		} catch (EntityNotFoundException e) {
+			s = e.toString();
+			rss.w2a("error", "s_get('...') " + s);
+		}
+		return s;
+	}
+
+	public static void s_put(String table, String id, String field, String value) {
+	
+		Entity zzz = new Entity(table, id);
+		zzz.setProperty(field, value);
+		DatastoreServiceFactory.getDatastoreService().put(zzz);
+	}
+
+	public static void s_put_date(String table, String id, String field1, String value1, String field2, Date dt) {
+	
+		Entity zzz = new Entity(table, id);
+		zzz.setProperty(field1, value1);
+		zzz.setProperty(field2, dt);
+		DatastoreServiceFactory.getDatastoreService().put(zzz);
+	}
+
+	public static void s_put2(String table, String id, String field1, String value1, String field2, String value2) {
+	
+		Entity zzz = new Entity(table, id);
+		zzz.setProperty(field1, value1);
+		zzz.setProperty(field2, value2);
+		DatastoreServiceFactory.getDatastoreService().put(zzz);
+	}
+
+	public static boolean time2do(String id, int n) {
+	
+		// LocalDateTime now = new
+		// Date().toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
+		LocalDateTime dt_now = LocalDateTime.now(ZoneId.of("America/New_York"));
+		// LocalDateTime dd2 =
+		// LocalDateTime.now(ZoneId.of("America/New_York")).plus(Duration.ofHours(n));
+	
+		String s = "";
+		Date d = null;
+		Key kk = KeyFactory.createKey("blogtime", id);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		try {
+			d = (Date) datastore.get(kk).getProperties().get("dt_last");
+			LocalDateTime dt_last_plus = (d.toInstant().atZone(ZoneId.of("America/New_York"))).toLocalDateTime()
+					.plus(Duration.ofMinutes(n));
+	
+			if (dt_now.isAfter(dt_last_plus)) {
+				Entity zzz = new Entity("blogtime", id);
+				zzz.setProperty("dt_last", new Date());
+				datastore.put(zzz);
+				return true;
+			} else
+				return false;
+		} catch (Exception e) {
+			Entity zzz = new Entity("blogtime", id);
+			zzz.setProperty("dt_last", new Date());
+			datastore.put(zzz);
+			s = e.toString();
+			rss.w2a(s, "");
+			return false;
+		}
 	}
 
 }

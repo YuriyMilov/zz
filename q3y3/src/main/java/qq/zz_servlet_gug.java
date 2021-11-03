@@ -23,22 +23,22 @@ public class zz_servlet_gug extends HttpServlet {
 		String s = request.getQueryString();
 
 		if (s == null)
-			s = ds.get_text("blog", "main", "content");
+			s = ds_old.get_text("blog", "main", "content");
 		else {
 			if (g == null && b == null) {
 				s = "https://trends.google.com/trends/trendingsearches/daily/rss";
 				s = rss.rss_gug(s);
-				ds.put_text("blog", "main", "content", new Text(s));
+				ds_old.put_text("blog", "main", "content", new Text(s));
 				rss.w2m("DS", "kuka@quicklydone.com", "", "kuka2.trends@blogger.com", rss.rus_date(), s);
 			} else {
 				if (b != null && g != null) {
 				
 					s = "https://trends.google.com/trends/trendingsearches/daily/rss?geo=" + g;
 					s = rss.rss_gug(s);
-					ds.put_text("blog", b, "content", new Text(s));
+					ds_old.put_text("blog", b, "content", new Text(s));
 					rss.w2m("DS", "kuka@quicklydone.com", "", "kuka2.trends-ru@blogger.com", rss.rus_date(), s);
 				} else
-					s = ds.get_text("blog", b, "content");
+					s = ds_old.get_text("blog", b, "content");
 			}
 		}
 

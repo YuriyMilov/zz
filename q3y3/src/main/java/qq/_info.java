@@ -17,17 +17,21 @@ import com.google.appengine.api.datastore.Text;
 public class _info {
 
 	public static void main(String[] args) throws Exception {
-		String s = "https://torontosun.com/feed";
-		System.out.println("-------- START ---------> " + s);
+		String s = "";
+		System.out.println("-------- START ---------> ");
 
 		s=rff("C:\\Users\\ym\\Desktop\\11.txt");
 		
 		String[]ss=s.split("\r\n");
 		for (String s2:ss)
 		{
-			System.out.println(rss.rss_h(s2, 24));	
+			System.out.println("----> "+s2);	
+
+			s=rss.rss_h(s2, 24);			
+			System.out.println(s);	
+
 		}
-		
+		w2f("C:/Users/ym/Desktop/22222222222.html", s);
 		System.out.println("============== FINISH ===================");
 		
 		System.exit(0);

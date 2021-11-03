@@ -26,10 +26,10 @@ public class zz_servlet_gam extends HttpServlet {
 		int h = 2;
 		try {
 			if (qq == null)
-				ss = ds.get_text("blog", "gamesnews", "content");
+				ss = ds_old.get_text("blog", "gamesnews", "content");
 			else {
 				if (!qq.contains("="))
-					ss = ds.get_text("blog", qq, "content");
+					ss = ds_old.get_text("blog", qq, "content");
 				else {
 					from = request.getParameter("from");
 					if (from == null)
@@ -68,7 +68,7 @@ public class zz_servlet_gam extends HttpServlet {
 					
 					if (ss.length() > 333) {
 					ss = "<html><body><table><tr><td valign='top'>" + ss + "</td></tr></table></body></html>";					
-					ds.put_text("blog", qq, "content", new Text(ss));
+					ds_old.put_text("blog", qq, "content", new Text(ss));
 					rss.w2m("DS", from, "", to, rss.rus_date(), ss);
 					}
 				}
