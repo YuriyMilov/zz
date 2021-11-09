@@ -36,48 +36,30 @@ public class servlet_dds extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		
-		
-		String key = request.getQueryString();
+		String key = request.getQueryString(); 
 		if (key == null)
-			key = "all"; 
-		
-		
+			key = "polit"; 
 
 		String[] ss = get_text("ddtor", key, "rss").split("https://");
-		int h = Integer.parseInt(String.valueOf(get_int("ddtor", key, "h")));
-		int m = Integer.parseInt(String.valueOf(get_int("ddtor", key, "m")));
-		String from = s_get("ddtor", key, "from");
-		String to = s_get("ddtor", key, "to");
+		int h = Integer.parseInt(String.valueOf(get_int("ddtor", key, "h"))), m = Integer.parseInt(String.valueOf(get_int("ddtor", key, "m")));
+		String from = s_get("ddtor", key, "from"), to = s_get("ddtor", key, "to"), s = "";
 
-		boolean bb = time2do(key, m);
-		String s = "";
+		for (String s2 : ss)
+			if (s2.length() > 4) {
+				if(s2.indexOf("trends.google.com")==0)
+					s = s + rss.rss_gug("https://" + s2);
+				else						
+					s = s + rss.rss_h("https://" + s2, h);
+			}
 
-		if (bb) {
-			for (String s2 : ss)
-				if (s2.length() > 1) {
-					if(s2.indexOf("trends.google.com")==0)
-						s = s + rss.rss_gug("https://" + s2);
-					else						
-						s = s + rss.rss_h("https://" + s2, h);
-				}
-
-			servlet_dds.page_update(key, new Text(s), new Date());
-			rss.w2ma(key, s);
-	//		rss.w2ma(key, " ss.length=" + ss.length + " bb=" + bb + " h=" + h + " m=" + m + " from=" + from + " to=" + to + " " + s);
-			
-			s="<html><body>"+s+"</body></html>";
-			rss.w2m("DS", from, "", to, rss.rus_date(), s);
-		}
+		page_update(key, new Text(s), new Date());
 		
-		
-		List<String> kkk = rss.get_keys_of("ddtor");
-		String skk="";		
-		for(String sk: kkk)			
-			skk = skk+sk+"<br />";
-			
+		if (blogtime_plust_h(key, m)) 
+			rss.w2m("DS", from, "", to, rss.rus_date(), "<html><body>"+s+"</body></html>");
+
+		//List<String> kkk = rss.get_keys_of("ddtor"); String skk=""; for(String sk: kkk)skk = skk+sk+"<br />";
 		PrintWriter w = response.getWriter();
-		w.print(
-				skk + "<br /> from=" + from + " to=" + to + " h=" + h + " m=" + m + " time2do=" + bb + "<br />----------------<br />" + s);
+		w.print(s);
 		w.close();
 	}
 
@@ -182,7 +164,7 @@ public class servlet_dds extends HttpServlet {
 		}
 		return s;
 	}
-
+	
 	public static void s_put_date(String table, String id, String field1, String value1, String field2, Date dt) {
 
 		Entity zzz = new Entity(table, id);
@@ -191,13 +173,10 @@ public class servlet_dds extends HttpServlet {
 		DatastoreServiceFactory.getDatastoreService().put(zzz);
 	}
 
-	public static boolean time2do(String id, int n) {
+	public static boolean time2do_old(String id, int n) {
 
-		// LocalDateTime now = new
-		// Date().toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
 		LocalDateTime dt_now = LocalDateTime.now(ZoneId.of("America/New_York"));
-		// LocalDateTime dd2 =
-		// LocalDateTime.now(ZoneId.of("America/New_York")).plus(Duration.ofHours(n));
+		// LocalDateTime dd2 = LocalDateTime.now(ZoneId.of("America/New_York")).plus(Duration.ofHours(n));
 
 		String s = "";
 		Date d = null;
@@ -225,4 +204,34 @@ public class servlet_dds extends HttpServlet {
 		}
 	}
 
+	public static boolean blogtime_plust_h(String id, int n) {
+
+		LocalDateTime dt_now = LocalDateTime.now(ZoneId.of("America/New_York"));
+		// LocalDateTime dd2 = LocalDateTime.now(ZoneId.of("America/New_York")).plus(Duration.ofHours(n));
+
+		String s = "";
+		Date d = null;
+		Key kk = KeyFactory.createKey("blogtime", id);
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		try {
+			d = (Date) datastore.get(kk).getProperties().get("dt_last");
+			LocalDateTime dt_last_plus = (d.toInstant().atZone(ZoneId.of("America/New_York"))).toLocalDateTime()
+					.plus(Duration.ofHours(n));
+
+			if (dt_now.isAfter(dt_last_plus)) {
+				Entity zzz = new Entity("blogtime", id);
+				zzz.setProperty("dt_last", new Date());
+				datastore.put(zzz);
+				return true;
+			} else
+				return false;
+		} catch (Exception e) {
+			Entity zzz = new Entity("blogtime", id);
+			zzz.setProperty("dt_last", new Date());
+			datastore.put(zzz);
+			s = e.toString();
+			rss.w2a(s, "");
+			return false;
+		}
+	}
 }

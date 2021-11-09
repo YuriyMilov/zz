@@ -481,17 +481,20 @@ public class rss {
 					if (Integer.parseInt(img.attr("width")) > 240)
 						img.attr("width", "240");
 				} catch (Exception e) {
-					w2a("Error kust.fit(IMG width)", img.attr("width") + " " + e.toString());
+					w2a("Error rss.fit(IMG width)", img.attr("width") + " " + e.toString());
 				}
 			else {
-				img.attr("width", "240");
+				img.attr("width", "420");
 
 			}
 			img.removeAttr("height");
 		}
 		for (Element iframe : doc.select("iframe")) {
-			iframe.attr("width", "560");
-			iframe.attr("height", "315");
+			//iframe.attr("width", "560");
+			//iframe.attr("height", "315");
+			iframe.attr("width", "420");
+			iframe.attr("height", "240");
+			
 			iframe.removeAttr("style");
 		}
 		for (Element div : doc.select("div")) {

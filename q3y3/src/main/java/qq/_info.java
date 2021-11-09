@@ -27,8 +27,8 @@ public class _info {
 		{
 			System.out.println("----> "+s2);	
 
-			s=rss.rss_h(s2, 24);			
-			System.out.println(s);	
+			s=s+rss.rss_h(s2, 24);			
+			//System.out.println(s);	
 
 		}
 		w2f("C:/Users/ym/Desktop/22222222222.html", s);

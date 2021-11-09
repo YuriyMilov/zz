@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//rudalle/__init__.py=utf-8
+encoding//rudalle/dalle/__init__.py=utf-8
+encoding//rudalle/dalle/fp16.py=utf-8
+encoding//rudalle/image_prompts.py=utf-8
+encoding//rudalle/pipelines.py=utf-8
+encoding//rudalle/ruclip/__init__.py=utf-8
+encoding//rudalle/tokenizer.py=utf-8
+encoding//rudalle/utils.py=utf-8
+encoding//rudalle/vae/__init__.py=utf-8
+encoding//rudalle/vae/model.py=utf-8
