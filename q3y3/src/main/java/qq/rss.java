@@ -97,7 +97,7 @@ public class rss {
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 							+ title + "</b></a>&nbsp;<br/><br /></div>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-							+ content + "<br /><br /></div><hr/>";
+							+ content + "</div><div></div><hr/>";
 							//+ content + "<br /><br /></div></td></tr></table><hr/>";
 					
 								
@@ -484,7 +484,7 @@ public class rss {
 					w2a("Error rss.fit(IMG width)", img.attr("width") + " " + e.toString());
 				}
 			else {
-				img.attr("width", "420");
+				img.attr("width", "240");
 
 			}
 			img.removeAttr("height");
@@ -557,7 +557,7 @@ public class rss {
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 							+ title + "</b></a>&nbsp;<br/><br /></div>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
-							+ content + "<br /><br /></div><hr/></td></tr></table>";
+							+ content + "<br /></div><br /><hr/></td></tr></table>";
 				}
 			}
 		} catch (Exception e) {
@@ -758,6 +758,104 @@ public class rss {
 			rss.w2a(s, "");
 			return false;
 		}
+	}
+
+	static public final String fit_gamesnews(String s) {
+	
+		Document doc = Jsoup.parse(s);
+		for (Element img : doc.select("img")) {
+			if (img.attr("width").length() > 0)
+				try {
+					if (Integer.parseInt(img.attr("width")) > 680)
+						img.attr("width", "680");
+				} catch (Exception e) {
+					w2a("Error rss.fit(IMG width)", img.attr("width") + " " + e.toString());
+				}
+			else {
+				img.attr("width", "680");
+	
+			}
+			img.removeAttr("height");
+		}
+		for (Element iframe : doc.select("iframe")) {
+			iframe.attr("width", "560");
+			iframe.attr("height", "315");
+		
+			
+			iframe.removeAttr("style");
+		}
+		for (Element div : doc.select("div")) {
+			div.removeAttr("style");
+		}
+	
+		return doc.toString();
+	}
+
+	static public final String rss_h2(String s, int i, String key) {
+	
+		System.out.println("-- RSS -> " + s);
+	
+		String ss = "", link = "", title = "", content = "", tt = "", dtm = "", dt = "";
+		int ii = -1;
+		try {
+			// w2ma("RSS_h", s);
+			SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(s)));
+			List<SyndEntry> synd_entry = feed.getEntries();
+			tt = feed.getTitle();
+			if (tt.contains("Google Alert - "))
+				i = i + 2;
+			tt = tt.replace("RSS", "").replace("Google Alert - ", "G-Alt ");
+			for (Object o : synd_entry) {
+				Date d = ((SyndEntryImpl) o).getPublishedDate();
+				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
+				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
+	
+				if (bb) {
+					link = ((SyndEntryImpl) o).getLink();
+					title = ((SyndEntryImpl) o).getTitle();
+					SyndContent synd_content = ((SyndEntryImpl) o).getDescription();
+					List<SyndContent> sclist = null;
+					if (synd_content != null)
+						content = ((SyndEntryImpl) o).getDescription().getValue();
+					else {
+						sclist = ((SyndEntryImpl) o).getContents();
+						ii = sclist.size();
+						if (ii > 0)
+							content = sclist.get(0).getValue();
+						else
+							content = "";
+						content = content.replace("<b>", "").replace("</b>", "").replace("Read more", "");
+					}
+					if (content.length() > 1)
+						if(key.contains("gamesnews"))
+							content = fit_gamesnews(content);
+						else
+							content = fit(content);
+					
+					dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
+							.format(localDateTime);
+					dt = tt + "    " + dtm;
+	
+					System.out.println("--- " + bb + "-----> " + dtm);
+					
+					ss = ss + "<tr><td><hr/><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
+							+ dt + "</div><div><a href='" + link
+							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
+							+ title + "</b></a>&nbsp;<br/><br /></div>"
+							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
+							+ content + "</div><div></div></td></tr>";
+							//+ content + "<br /><br /></div></td></tr></table><hr/>";
+					
+								
+					
+				} else
+					System.out.println("--- " + bb + "-----> " + dtm);
+			}
+		} catch (Exception e) {
+			 System.out.println(e.toString());
+			// w2ma("RSS_h Error", e.toString());
+		}
+		return "<table>"+ss+"</table>";
 	}
 
 }

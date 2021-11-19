@@ -1,4 +1,4 @@
-package qq;
+package yy;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,7 +25,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Text;
 
-@WebServlet(name = "servlet_dds", urlPatterns = { "/dds" })
+@WebServlet(name = "yy.servlet_dds", urlPatterns = { "/dds" })
 public class servlet_dds extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -40,29 +40,29 @@ public class servlet_dds extends HttpServlet {
 		if (key == null)
 			key = "polit"; 
 
-		String[] ss = get_text("ddtor", key, "rss").split("https://");
-		int h = Integer.parseInt(String.valueOf(get_int("ddtor", key, "h"))), m = Integer.parseInt(String.valueOf(get_int("ddtor", key, "m")));
-		String from = s_get("ddtor", key, "from"), to = s_get("ddtor", key, "to"), s = "";
+		String[] ss = bb.get_text("ddtor", key, "rss").split("https://");
+		int h = Integer.parseInt(String.valueOf(bb.get_int("ddtor", key, "h"))), m = Integer.parseInt(String.valueOf(bb.get_int("ddtor", key, "m")));
+		String from = bb.s_get("ddtor", key, "from"), to = bb.s_get("ddtor", key, "to"), s = "";
 
 		for (String s2 : ss)
 			if (s2.length() > 4) {
 				if(s2.indexOf("trends.google.com")==0)
-					s = s + rss.rss_gug("https://" + s2);
+					s = s + bb.rss_gug("https://" + s2);
 				else						
-					s = s + rss.rss_h2("https://" + s2, h, key);
+					s = s + bb.rss_h2("https://" + s2, h, key);
 			}
 
-		page_update(key, new Text(s), new Date());
+		bb.page_update(key, new Text(s), new Date());
 		
-		if (blogtime_plust_h(key, m)) 
-			rss.w2m("DS", from, "", to, rss.rus_date(), "<html><body>"+s+"</body></html>");
+		if (bb.blogtime_plust_h(key, m)) 
+			bb.w2m("DS", from, "", to, bb.rus_date(), "<html><body>"+s+"</body></html>");
 
 		//List<String> kkk = rss.get_keys_of("ddtor"); String skk=""; for(String sk: kkk)skk = skk+sk+"<br />";
 		PrintWriter w = response.getWriter();
 		w.print(s);
 		w.close();
 	}
-
+/*
 	public static void page_update(String id, Text txt, Date d) {
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
@@ -81,7 +81,7 @@ public class servlet_dds extends HttpServlet {
 			s = datastore.get(kk).getProperties().get(field).toString();
 		} catch (EntityNotFoundException e) {
 			s = e.toString();
-			rss.w2a("error", "s_get('...') " + s);
+			bb.w2a("error", "s_get('...') " + s);
 		}
 		return s;
 	}
@@ -121,7 +121,7 @@ public class servlet_dds extends HttpServlet {
 			d = (Date) datastore.get(kk).getProperties().get(field);
 		} catch (EntityNotFoundException e) {
 			s = e.toString();
-			rss.w2a("error", "s_get('...') " + s);
+			bb.w2a("error", "s_get('...') " + s);
 		}
 		return d;
 	}
@@ -135,7 +135,7 @@ public class servlet_dds extends HttpServlet {
 		try {
 			i = (Long) datastore.get(kk).getProperties().get(field);
 		} catch (EntityNotFoundException e) {
-			rss.w2a("error", e.toString());
+			bb.w2a("error", e.toString());
 		}
 		return i;
 	}
@@ -160,7 +160,7 @@ public class servlet_dds extends HttpServlet {
 			s = txt.getValue();
 		} catch (EntityNotFoundException e) {
 			s = e.toString();
-			rss.w2a("error", "s_get('...') " + s);
+			bb.w2a("error", "s_get('...') " + s);
 		}
 		return s;
 	}
@@ -199,7 +199,7 @@ public class servlet_dds extends HttpServlet {
 			zzz.setProperty("dt_last", new Date());
 			datastore.put(zzz);
 			s = e.toString();
-			rss.w2a(s, "");
+			bb.w2a(s, "");
 			return false;
 		}
 	}
@@ -230,8 +230,9 @@ public class servlet_dds extends HttpServlet {
 			zzz.setProperty("dt_last", new Date());
 			datastore.put(zzz);
 			s = e.toString();
-			rss.w2a(s, "");
+			bb.w2a(s, "");
 			return false;
 		}
 	}
+	*/
 }
