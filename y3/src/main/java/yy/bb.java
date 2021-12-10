@@ -45,15 +45,14 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
-
 public class bb {
-	public static final String server_url="https://qqqyyy.appspot.com/";
+	public static final String server_url = "https://qqqyyy.appspot.com/";
 
 	public static void main(String[] args) {
 	}
 
 	public static String get_text(String table, String id, String field) {
-	
+
 		String s = "";
 		Key kk = KeyFactory.createKey(table, id);
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -71,13 +70,13 @@ public class bb {
 		Properties props = new Properties();
 		Session session = Session.getDefaultInstance(props, null);
 		Message msg = new MimeMessage(session);
-	
+
 		try {
 			msg.setFrom(new InternetAddress("ymilov@gmail.com", "Admin"));
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress("admins"));
 			msg.setSubject(subject);
 			msg.setText(body);
-	
+
 			Multipart mp = new MimeMultipart();
 			MimeBodyPart textPart = new MimeBodyPart();
 			textPart.setContent(body, "text/html;charset=utf-8");
@@ -92,7 +91,7 @@ public class bb {
 	public static String rfu_utf(String s) {
 		try {
 			URL url = new URL(s);
-	
+
 			URLConnection conn = url.openConnection();
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf8"));
 			s = "";
@@ -103,25 +102,25 @@ public class bb {
 			}
 			br.close();
 			return s.toString();
-	
+
 		} catch (Exception e) {
 			return e.toString();
 		}
 	}
 
 	public static List<String> get_keys_of(String kind) {
-	  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-	  Query q = new Query(kind);
-	  PreparedQuery pq = datastore.prepare(q);
-	  List<Entity> eee =pq.asList(FetchOptions.Builder.withDefaults());		  //.withLimit(5)
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query q = new Query(kind);
+		PreparedQuery pq = datastore.prepare(q);
+		List<Entity> eee = pq.asList(FetchOptions.Builder.withDefaults()); // .withLimit(5)
 
-	  List<String> result = new ArrayList<String>();
-	  for (Entity entity : eee) {
-	      result.add(entity.getKey().getName());
-	  }
-	  return result;
+		List<String> result = new ArrayList<String>();
+		for (Entity entity : eee) {
+			result.add(entity.getKey().getName());
+		}
+		return result;
 	}
-	
+
 	public static Long get_int(String table, String id, String field) {
 
 		Long i = (long) 0;
@@ -135,7 +134,7 @@ public class bb {
 		}
 		return i;
 	}
-	
+
 	public static String s_get(String table, String id, String field) {
 
 		String s = "";
@@ -165,12 +164,12 @@ public class bb {
 					int k = s2.indexOf("</item>");
 					String s3 = s2.substring(0, k);
 					ss = s3.split("</");
-	
+
 					// int m = 0;
 					// for (String s4 : ss) {
 					// System.out.println("--- " + m++ + " --->" + Jsoup.parse("</" + s4).text());
 					// }
-	
+
 					String link1 = Jsoup.parse("</" + ss[3]).text();
 					String link2 = Jsoup.parse("</" + ss[9]).text();
 					String link3 = Jsoup.parse("</" + ss[14]).text();
@@ -192,7 +191,7 @@ public class bb {
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 							+ title1 + "</b></a><br /><i>" + date1 + "<br />" + traffic + "<br />" + source1 + "<br />"
 							+ content1 + "</i></div></td></tr></table>"
-	
+
 							+ "<table><tr><td></td><td valign='top'><div><a href='" + link2
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 							+ title2
@@ -216,9 +215,9 @@ public class bb {
 	}
 
 	static public final String rss_h2(String s, int i, String key) {
-	
+
 		System.out.println("-- RSS -> " + s);
-	
+
 		String ss = "", link = "", title = "", content = "", tt = "", dtm = "", dt = "";
 		int ii = -1;
 		try {
@@ -233,7 +232,7 @@ public class bb {
 				Date d = ((SyndEntryImpl) o).getPublishedDate();
 				LocalDateTime localDateTime = d.toInstant().atZone(ZoneId.of("America/New_York")).toLocalDateTime();
 				boolean bb = localDateTime.isAfter(LocalDateTime.now().minus(Duration.ofHours(i)));
-	
+
 				if (bb) {
 					link = ((SyndEntryImpl) o).getLink();
 					title = ((SyndEntryImpl) o).getTitle();
@@ -251,37 +250,35 @@ public class bb {
 						content = content.replace("<b>", "").replace("</b>", "").replace("Read more", "");
 					}
 					if (content.length() > 1)
-						if(key.contains("gamesnews"))
+						if (key.contains("gamesnews"))
 							content = fit_gamesnews(content);
 						else
 							content = fit(content);
-					
+
 					dtm = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
 							.format(localDateTime);
 					dt = tt + "    " + dtm;
-	
+
 					System.out.println("--- " + bb + "-----> " + dtm);
-					
+
 					ss = ss + "<tr><td><hr/><div style=\"color:#777777;font-family: Arial;font-size:13px;text-decoration:none;\">"
 							+ dt + "</div><div><a href='" + link
 							+ "' style=\"color:#0044bb;font-family: Arial;font-size:15px;text-decoration:none;\" target=\"_blank\"><b>"
 							+ title + "</b></a>&nbsp;<br/><br /></div>"
 							+ "<div style=\"color:#222222;font-family: Arial;font-size:13px;\">&nbsp;&nbsp;&nbsp;&nbsp;"
 							+ content + "</div><div></div></td></tr>";
-							//+ content + "<br /><br /></div></td></tr></table><hr/>";
-					
-								
-					
+					// + content + "<br /><br /></div></td></tr></table><hr/>";
+
 				} else
 					System.out.println("--- " + bb + "-----> " + dtm);
 			}
 		} catch (Exception e) {
-			 System.out.println(e.toString());
+			System.out.println(e.toString());
 			// w2ma("RSS_h Error", e.toString());
 		}
-		return "<table>"+ss+"</table>";
+		return "<table>" + ss + "</table>";
 	}
-	
+
 	public static void page_update(String id, Text txt, Date d) {
 
 		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
@@ -294,7 +291,8 @@ public class bb {
 	public static boolean blogtime_plust_h(String id, int n) {
 
 		LocalDateTime dt_now = LocalDateTime.now(ZoneId.of("America/New_York"));
-		// LocalDateTime dd2 = LocalDateTime.now(ZoneId.of("America/New_York")).plus(Duration.ofHours(n));
+		// LocalDateTime dd2 =
+		// LocalDateTime.now(ZoneId.of("America/New_York")).plus(Duration.ofHours(n));
 
 		String s = "";
 		Date d = null;
@@ -345,7 +343,7 @@ public class bb {
 		 * 
 		 * s = s_hh + ":" + s_mm + " " + s_dow + " " + s_dofm + s;
 		 */
-	
+
 		return LocalDateTime.now(ZoneId.of("America/Toronto")).format(DateTimeFormatter.ofPattern("MMM dd, HH:mm"));
 	}
 
@@ -357,11 +355,11 @@ public class bb {
 		Message msg = new MimeMessage(session);
 		try {
 			msg.setFrom(new InternetAddress(from_address, MimeUtility.encodeText(from_name, "utf-8", "B")));
-	
+
 			msg.addRecipient(Message.RecipientType.TO,
 					new InternetAddress(to_address, MimeUtility.encodeText(to_name, "utf-8", "B")));
 			msg.setSubject(MimeUtility.encodeText(MimeUtility.encodeText(subj, "utf-8", "B"), "utf-8", "B"));
-	
+
 			MimeBodyPart textPart = new MimeBodyPart();
 			textPart.setContent(body, "text/html;charset=utf-8");
 			Multipart mp = new MimeMultipart();
@@ -375,39 +373,42 @@ public class bb {
 	}
 
 	static public final String fit(String s) {
-	
+s=s.replace("&lt;", "<").replace("&gt;", ">");
 		Document doc = Jsoup.parse(s);
+		
 		for (Element img : doc.select("img")) {
 			if (img.attr("width").length() > 0)
 				try {
-					if (Integer.parseInt(img.attr("width")) > 240)
-						img.attr("width", "240");
+					if (img.attr("width").contains("%")) {
+						img.removeAttr("height");
+						img.removeAttr("width");
+						img.attr("width", "420");
+					} else if (Integer.parseInt(img.attr("width")) > 240)
+						img.attr("width", "420");
 				} catch (Exception e) {
 					w2a("Error rss.fit(IMG width)", img.attr("width") + " " + e.toString());
 				}
-			else {
-				img.attr("width", "240");
-	
-			}
-			img.removeAttr("height");
+			else 
+				img.remove();
+			//else {img.attr("width", "100");} img.removeAttr("height");
 		}
 		for (Element iframe : doc.select("iframe")) {
-			//iframe.attr("width", "560");
-			//iframe.attr("height", "315");
+			// iframe.attr("width", "560");
+			// iframe.attr("height", "315");
 			iframe.attr("width", "420");
 			iframe.attr("height", "240");
-			
+
 			iframe.removeAttr("style");
 		}
 		for (Element div : doc.select("div")) {
 			div.removeAttr("style");
 		}
-	
+
 		return doc.toString();
 	}
 
 	static public final String fit_gamesnews(String s) {
-	
+
 		Document doc = Jsoup.parse(s);
 		for (Element img : doc.select("img")) {
 			if (img.attr("width").length() > 0)
@@ -419,21 +420,20 @@ public class bb {
 				}
 			else {
 				img.attr("width", "680");
-	
+
 			}
 			img.removeAttr("height");
 		}
 		for (Element iframe : doc.select("iframe")) {
 			iframe.attr("width", "560");
 			iframe.attr("height", "315");
-		
-			
+
 			iframe.removeAttr("style");
 		}
 		for (Element div : doc.select("div")) {
 			div.removeAttr("style");
 		}
-	
+
 		return doc.toString();
 	}
 

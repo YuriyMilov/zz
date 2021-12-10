@@ -14,13 +14,14 @@
 					<table>
 						<tr valign=top>
 							<td>
+							
 							Max-tkns: <input type="text" name="max_tokens"
 								value="333" size=3 /> Tmt-ra: <input type="text"
 								name="temperature" value="0.7" size=3 /> Frq-pty: <input
 								type="text" name="frequency_penalty" value="0.5" size=3 />
 								Prs-pty: <input type="text" name="presence_penalty" value="0.2"
 								size=3 />
-								Stop: <input type="text" name="stop" value="\n, "
+								Stop: <input type="text" name="stop" value="\n"
 								size=3 /> 
 								Engine: <select name="engine">
 									<option value="curie">Curie</option>
@@ -28,12 +29,7 @@
 							</select><br />
 							<br /> 
 							
-							 <textarea name="prompt" cols=44 rows=7>
-В дверь кто-то постучал. 
-Oregon: Кто там? 
-Кто-то: Кто надо! 
-Oregon: Ну и что тебе надо?
-</textarea>
+							 <textarea name="prompt" cols=44 rows=7>В дверь кто-то постучал. "Кто там?" - спросил Вася.</textarea>
 								<br />
 							<br /> <input type="submit" value="Submit" />
 						</tr>
