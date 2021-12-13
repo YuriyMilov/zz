@@ -49,7 +49,7 @@ public class servlet_dds extends HttpServlet {
 				if(s2.indexOf("trends.google.com")==0)
 					s = s + rss.rss_gug("https://" + s2);
 				else						
-					s = s + rss.rss_h("https://" + s2, h);
+					s = s + rss.rss_h2("https://" + s2, h, key);
 			}
 
 		page_update(key, new Text(s), new Date());
