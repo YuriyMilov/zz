@@ -56,7 +56,7 @@ public class gpt {
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/json; utf-8");
-			con.setRequestProperty("Authorization", "Bearer /////");
+			con.setRequestProperty("Authorization", "Bearer zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 			con.setRequestProperty("Accept", "application/json");
 			con.setDoOutput(true);
 
