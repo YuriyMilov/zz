@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="content-type"
+	content="application/xhtml+xml; charset=UTF-8" />
+<title>GPT-3</title>
+</head>
+
+<body bgcolor=lightgrey>
+	<table>
+		<tr>
+			<td>
+				<form action="/gpt" method="post">
+					<table>
+						<tr valign=top>
+							<td>Max-tkns: <input type="text" name="max_tokens"
+								value="222" size=3 /> Tmt-ra: <input type="text"
+								name="temperature" value="0.7" size=3 /> Frq-pty: <input
+								type="text" name="frequency_penalty" value="0.6" size=3 />
+								Prs-pty: <input type="text" name="presence_penalty" value="0.0"
+								size=3 /> Stop: <input type="text" name="stop" value="Human: "
+								size=3 /> Engine: <select name="engine">
+									<option value="curie">Curie</option>
+									<option value="davinchi">Davinchi</option>
+							</select><br /> <br /> <textarea name="prompt" cols=55 rows=15>The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
+Human: Hello, who are you?
+AI: I am an AI created by OpenAI. How can I help you today?
+Human: I'd like to cancel my subscription.</textarea> <br /> <br /> <input type="submit" value="Submit" />
+						</tr>
+					</table>
+				</form>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

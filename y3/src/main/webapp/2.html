@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="content-type"
+	content="application/xhtml+xml; charset=UTF-8" />
+<title>GPT-3</title>
+</head>
+
+<body bgcolor=lightgrey>
+	<table>
+		<tr>
+			<td>
+				<form action="/gpt" method="post">
+					<table>
+						<tr valign=top>
+							<td>
+							
+							Max-tkns: <input type="text" name="max_tokens"
+								value="333" size=3 /> Tmt-ra: <input type="text"
+								name="temperature" value="0.7" size=3 /> Frq-pty: <input
+								type="text" name="frequency_penalty" value="0.5" size=3 />
+								Prs-pty: <input type="text" name="presence_penalty" value="0.2"
+								size=3 />
+								Stop: <input type="text" name="stop" value="\n"
+								size=3 /> 
+								Engine: <select name="engine">
+									<option value="curie">Curie</option>
+									<option value="davinchi">Davinchi</option>
+							</select><br />
+							<br /> 
+							
+							 <textarea name="prompt" cols=44 rows=7>В дверь кто-то постучал. "Кто там?" - спросил Вася.</textarea>
+								<br />
+							<br /> <input type="submit" value="Submit" />
+						</tr>
+					</table>
+				</form>
+			</td>
+		</tr>
+	</table>
+
+	<!--  
+<a href='/bb?polit'>/bb?polit</a>
+<a href='/run'>/run</a>
+<a href='/dds'>/dds</a>
+<a href='/rss'>/rss</a>
+
+-->
+</body>
+</html>
