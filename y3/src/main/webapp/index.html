@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <meta http-equiv="content-type"
 	content="application/xhtml+xml; charset=UTF-8" />
@@ -7,30 +9,46 @@
 </head>
 
 <body bgcolor=lightgrey>
+
+
 	<table>
 		<tr>
 			<td>
 				<form action="/gpt" method="post">
 					<table>
 						<tr valign=top>
-							<td>Max-tkns: <input type="text" name="max_tokens"
-								value="222" size=3 /> Tmt-ra: <input type="text"
-								name="temperature" value="0.7" size=3 /> Frq-pty: <input
-								type="text" name="frequency_penalty" value="0.6" size=3 />
-								Prs-pty: <input type="text" name="presence_penalty" value="0.0"
-								size=3 /> Stop: <input type="text" name="stop" value="Human: "
-								size=3 /> Engine: <select name="engine">
-									<option value="curie">Curie</option>
-									<option value="davinchi">Davinchi</option>
-							</select><br /> <br /> <textarea name="prompt" cols=55 rows=15>The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
-Human: Hello, who are you?
-AI: I am an AI created by OpenAI. How can I help you today?
-Human: I'd like to cancel my subscription.</textarea> <br /> <br /> <input type="submit" value="Submit" />
+							<td><input type="hidden" name="prompt1"
+								value="The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
+								\n\nHuman: Hello, who are you?
+								\nAI: I am an AI created by OpenAI. How can I help you today?">
+								<br /> The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
+
+<pre>Human: Hello, who are you?
+AI: I am an AI created by OpenAI. How can I help you today?</pre> <br /> 	Human: <input
+								type="text" name="prompt"
+								value="I'd like to chat." size=44 autofocus />
+								<input type="submit" value="Submit" /></td>
+								
+											<td>
+			<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2500695075596096"
+     crossorigin="anonymous"></script>
+<!-- bb.ddtor-side -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:330px;height:800px"
+     data-ad-client="ca-pub-2500695075596096"
+     data-ad-slot="9738638150"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+			</td>
+			
 						</tr>
 					</table>
 				</form>
 			</td>
+
 		</tr>
 	</table>
 </body>
 </html>
+

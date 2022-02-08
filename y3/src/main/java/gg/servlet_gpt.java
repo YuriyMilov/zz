@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.VoiceManager;
+
 @WebServlet(name = "gg.servlet_gpt", urlPatterns = { "/gpt" })
 
 public class servlet_gpt extends HttpServlet {
@@ -23,31 +26,23 @@ public class servlet_gpt extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 
-//		String[] stop = new String[] {"\r\n","Human:","AI:"};// "\n","Human:","GPT-3:" };	
-		String[] stop = new String[] {"\n","Human:","AI:"};
-//		String stopstr = request.getParameter("stop");
-//		if (stopstr != null)
-//			stop = stopstr.split(",");	
+		String[] stop = new String[] { "\r\n", "Human: ", "AI: " };
 
-		String	sprompt = request.getParameter("prompt");
-		if (sprompt == null)
-			//sprompt = "The following is a spooky story written for kids, just in time for Halloween. Everyone always talks about the old house at the end of the street, but I couldn’t believe what happened when I went inside.";
-		
-		sprompt = "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\r\n"
-				+ "\r\nHuman: Hello, who are you?\r\nAI: I am an AI created by OpenAI. How can I help you today?\r\n"
-				+ "Human: I'd like to chat with you.\r\nAI:";
-		
-	/*	
-		String style = request.getParameter("style");
-		if(style==null)	
-		{		sprompt = "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\r\n"
-				+ "\r\n" + "Human: Hello, who are you?\r\n"
-				+ "GPT-3: I am an AI created by OpenAI. How can I help you today?\r\n"
-				+ "Human: I'd like to cancel my subscription.\r\n" + "GPT-3:";
+		// String stopstr = request.getParameter("stop");
+// if (stopstr != null)
+// stop = stopstr.split(",");
 
-		}		
-*/
+		String sprompt1 = request.getParameter("prompt1");
+		String sprompt = "\r\nHuman: "+ request.getParameter("prompt");
 		
+		if (sprompt1 == null)
+			// sprompt = "The following is a spooky story written for kids, just in time for Halloween. Everyone always talks about the old house at the end of the street, but I couldnâ€™t believe what happened when I went inside.";
+			sprompt = "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\r\n"
+					+ "\r\nHuman: Hello, who are you?\r\nAI: I am an AI created by OpenAI. How can I help you today?\r\n"
+					+ "Human: I'd like to chat with you.\r\nAI:";
+
+		sprompt = sprompt1 + sprompt;
+
 		String engine = request.getParameter("engine");
 		if (engine == null)
 			engine = "curie";// davinci
@@ -58,39 +53,42 @@ public class servlet_gpt extends HttpServlet {
 			max_tokens = Integer.parseInt(smax_tokens);
 		int top_p = 1;
 
-		//  String stp = request.getParameter("stp");
-		//	if (stp != null)
-		//	top_p = Integer.parseInt(stp);
+//  String stp = request.getParameter("stp");
+// if (stp != null)
+// top_p = Integer.parseInt(stp);
 
-		double temperature = 0.7;
+		double temperature = 0.8;
 		String stemperature = request.getParameter("temperature");
 		if (stemperature != null)
 			temperature = Double.parseDouble(stemperature);
 
-		double frequency_penalty = 0.0;
+		double frequency_penalty = 0.5;
 		String sfrequency_penalty = request.getParameter("frequency_penalty");
 		if (sfrequency_penalty != null)
 			frequency_penalty = Double.parseDouble(sfrequency_penalty);
 
-		double presence_penalty = 0.0;
+		double presence_penalty = 0.1;
 		String spresence_penalty = request.getParameter("presence_penalty");
 		if (spresence_penalty != null)
 			presence_penalty = Double.parseDouble(spresence_penalty);
 
-//		String s = "Prompt: <br /><b><i>" + sprompt + "</i></b><br /><br />";
-		//s = s + gpt.gpt3(sprompt, engine, stop, max_tokens, temperature, top_p, frequency_penalty, presence_penalty);
+		if (sprompt.length() > 444)
+			sprompt = "..." + sprompt.substring(111);
+		if (sprompt.contains("AI:"))
+			sprompt = sprompt.substring(sprompt.indexOf("AI:"));
 
-		//s=s.replace("\n", "<br />\n");
-		//s = s + " ... (c) GPT-3<br /><br /> <a href='https://www.ddtor.com/gpt-3'><b> <== BACK ==[ </b></a>";
-	//	String sout= sprompt + "\r\nGPT-3: " + gpt.gpt3(sprompt, engine, stop, max_tokens, temperature, top_p, frequency_penalty, presence_penalty);
-		//String sout= gpt.gpt3(sprompt, engine, stop, max_tokens, temperature, top_p, frequency_penalty, presence_penalty);
-		String s=yy.bb.rfu_utf("http://"+request.getServerName() + ":" + request.getServerPort() +"/tmp.html");
-		
-		
-		String sout= sprompt + "AI: "+ gpt.gpt3(sprompt, engine, stop, max_tokens, temperature, top_p, frequency_penalty, presence_penalty)+"Human: ";
-		
-		
-		s=s.replace("---qqq---", "" +sout);
+		sprompt = sprompt + "\r\nAI: ";
+
+		String s = sprompt
+				+ gpt.gpt3(sprompt, engine, stop, max_tokens, temperature, top_p, frequency_penalty, presence_penalty);
+String s2=s;
+	String stmp = yy.bb.rfu_utf("http://" + request.getServerName() + "/tmp.html");
+	//String stmp = yy.bb.rfu_utf("http://" + request.getServerName() + ":" + request.getServerPort() + "/tmp.html");
+			
+	stmp = stmp.replace("---qqq---", s);
+s2=s2.replace("\n", "\n<br />");
+s = stmp.replace("---qqq2---", s2);
+
 		PrintWriter wr = response.getWriter();
 		wr.print(s);
 		wr.close();

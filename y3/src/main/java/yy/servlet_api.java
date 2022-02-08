@@ -56,7 +56,7 @@ String s=get("hello");
 
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			HttpPost request = new HttpPost("https://api.openai.com/v1/engines/davinci/completions");
-			request.addHeader("Authorization", "Bearer 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");
+			request.addHeader("Authorization", "Bearer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 			request.addHeader("Content-Type", "application/json; charset=utf-8");
 			//request.addHeader("Accept", "application/json");
 			//request.addHeader("Accept", "charset=utf-8");

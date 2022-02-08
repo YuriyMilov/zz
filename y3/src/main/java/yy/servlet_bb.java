@@ -16,7 +16,7 @@ public class servlet_bb extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8"); 
 
 		String s = request.getQueryString();
 		if (s == null)

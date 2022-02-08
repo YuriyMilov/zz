@@ -27,7 +27,8 @@ public class servlet_run extends HttpServlet {
 		
 		for(String s: kkk)		{	
 			new Thread(new cron(s)).start();
-			wr.print(s+ " ");		
+			wr.print(s+ " ");	
+		
 		}
 		 
 		wr.print("\r\n------------------\r\n OK");
