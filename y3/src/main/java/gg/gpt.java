@@ -74,7 +74,8 @@ public class gpt {
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/json; utf-8");
 
-// con.setRequestProperty("Authorization", "Bearer ...code...");
+
+con.setRequestProperty("Authorization", "Bearer ...code...");
 
 			con.setRequestProperty("Accept", "application/json");
 			con.setDoOutput(true);
