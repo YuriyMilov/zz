@@ -26,7 +26,8 @@ public class servlet_bb extends HttpServlet {
 		String ads = "<script async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2500695075596096\" crossorigin=\"anonymous\"></script><!-- bb.ddtor.com --> <ins class=\"adsbygoogle\"  style=\"display:block\" data-ad-client=\"ca-pub-2500695075596096\"  data-ad-slot=\"5150340667\" data-ad-format=\"auto\" data-full-width-responsive=\"true\"></ins><script>  (adsbygoogle = window.adsbygoogle || []).push({}); </script>";
 
 		PrintWriter wr = response.getWriter();
-		wr.print(ads + s);
+		//wr.print(ads + s);
+		wr.print(s);
 		wr.close();
 	}
 } 
